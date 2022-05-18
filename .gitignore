@@ -1,10 +1,10 @@
 *.suo
 
-URS/Library
-URS/Logs
-URS/Temp
-URS/.vs
-URS/obj
-URS/ProjectSettings
-URS/UserSettings
+UIFrameWork/Library
+UIFrameWork/Logs
+UIFrameWork/Temp
+UIFrameWork/.vs
+UIFrameWork/obj
+UIFrameWork/ProjectSettings
+UIFrameWork/UserSettings
 
