@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace CJR.UI
 {
@@ -10,6 +11,7 @@ namespace CJR.UI
     public class UIElement : MonoBehaviour, IPoolObject
     {
         private GameObject Parent;
+        private readonly List<UIElement> _childElement = new ();
         private RectTransform _myRectTransform;
 
         private bool _active;
@@ -27,7 +29,30 @@ namespace CJR.UI
         public void SetParent(GameObject parent)
         {
             Parent = parent;
+            var parentUI = Parent.GetComponent<UIElement>();
+            if (parentUI != null)
+            {
+                parentUI.AddChild(this);
+            }
+
             _myRectTransform.SetParent(parent.transform, worldPositionStays: false);
+        }
+
+        public void AddChild(UIElement element)
+        {
+            if (element == null)
+            {
+                Debug.Log($"ui is null");
+                return;
+            }
+
+            if (_childElement.Contains(element))
+            {
+                Debug.Log($"already contain ui {element.name}");
+                return;
+            }
+
+            _childElement.Add(element);
         }
 
         public void Open()
