@@ -12,27 +12,9 @@ namespace CJR.Scene
     {
         private readonly List<string> _openedScenes = new();
         public IReadOnlyList<string> ReadOnlyOpenedScenes => _openedScenes;
-        //private readonly Queue<string> _sceneLoadRequestQueue = new Queue<string>();
 
         private readonly List<string> _loadingScene = new();
         private readonly List<string> _unloadingScene = new();
-
-        private string _curLoadingSceneName;
-        private bool unloading = true;
-
-        public bool Isloading => _loadingScene.Count > 0;
-        public bool IsUnloading => _unloadingScene.Count > 0;
-
-        //public void Update()
-        //{
-        //    if (_sceneLoadRequestQueue.Count > 0 )
-        //    {
-        //        if (string.IsNullOrEmpty(_curLoadingSceneName))
-        //        {
-        //            _curLoadingSceneName = _sceneLoadRequestQueue.Peek();
-        //        } 
-        //    }
-        //}
 
         public void LoadUIScene(string sceneName, LoadSceneMode loadType, Action onComplete)
         {
