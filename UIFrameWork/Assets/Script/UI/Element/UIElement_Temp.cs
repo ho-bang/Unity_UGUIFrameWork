@@ -1,15 +1,12 @@
-﻿using Assets.UI.FrameWork;
+﻿using CJR.UI;
 using UnityEngine.UI;
 
-namespace Assets.UI
+public class UIElement_Temp : UIElement
 {
-    public class UIElement_Temp : UIElement
-    {
-        public Image Image;
+    public Image Image;
 
-        public void OnClick()
-        {
-            this.Close();
-        }
+    public void OnClick()
+    {
+        this.Close();
     }
 }

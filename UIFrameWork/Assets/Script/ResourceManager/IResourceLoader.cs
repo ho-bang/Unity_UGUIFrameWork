@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Assets.Script.ResourceManager
+namespace CJR.ResourceManager
 {
     public interface IResourceLoader<T>
     {

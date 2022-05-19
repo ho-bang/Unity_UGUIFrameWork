@@ -1,4 +1,5 @@
-using Assets.UI.FrameWork;
+using CJR.Scene;
+using CJR.UI;
 using UnityEngine;
 
 public class UISceneManager : MonoBehaviour
@@ -7,8 +8,8 @@ public class UISceneManager : MonoBehaviour
 
     void Start()
     {
-        var element = UIManager.Open(canvas.gameObject, "TempUI");
-        var element1 = UIManager.Open(canvas.gameObject, "TempUI");
+        UIManager.Open(canvas.gameObject, "TempUIPrefabs/TempUI");
+        var element1 = UIManager.Open(canvas.gameObject, "TempUIPrefabs/TempUI");
         
         // temp
         var ap = element1.GetComponent<RectTransform>().anchoredPosition;

@@ -1,18 +1,17 @@
-﻿using System.Collections;
-using Assets.Script.Scene;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class TempManager : MonoBehaviour
 {
-    public Canvas uiCan;
-    private SceneLoader _sceneLoader;
-
     void Awake()
     {
-        _sceneLoader = gameObject.AddComponent<SceneLoader>();
-        _sceneLoader.LoadUIScene("UIScene", (a) =>
-        {
-            Debug.Log("Success");
-        });
+        //_sceneLoader?.LoadUIScene("UIScene", loadType: LoadSceneMode.Additive, onComplete: (a) =>
+        //{
+        //    Debug.Log("onComplete Success");
+        //});
+    }
+
+    public void LoadScene()
+    {
+
     }
 }

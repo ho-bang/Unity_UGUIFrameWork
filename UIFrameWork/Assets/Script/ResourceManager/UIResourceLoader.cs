@@ -1,10 +1,26 @@
 using System;
-using Assets.UI.FrameWork;
+using System.Collections;
+using CJR.UI;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace Assets.Script.ResourceManager
+namespace CJR.ResourceManager
 {
+    public interface IResourcePool<T>
+    {
+        Queue ResourceQueue { get; }
+        T Get();
+        void Return(T resource);
+    }
+
+    public class UIResourcePool
+    {
+        public void Return()
+        {
+
+        }
+    }
+
     public class UIResourceLoader<T> : IResourceLoader<T> where T : UIElement
     {
         public T Get(string name, Action onComplete)
@@ -12,14 +28,14 @@ namespace Assets.Script.ResourceManager
             var resource = Resources.Load(name);
             if (resource == null)
             {
-                Debug.Log($"resource is null _ {name}");
+                Debug.LogWarning($"resource is null _ {name}");
                 return null;
             }
 
             var gob = resource as GameObject;
             if (gob == null)
             {
-                Debug.Log($"not gameobject _ {name}");
+                Debug.LogWarning($"not gameobject _ {name}");
                 return null;
             }
 
@@ -27,7 +43,7 @@ namespace Assets.Script.ResourceManager
             var element = instance.GetComponent<UIElement>();
             if (element is T e) return e;
 
-            Debug.Log($"invalid type resource _ {resource} _ type {typeof(T)}");
+            Debug.LogWarning($"invalid type resource _ {resource} _ type {typeof(T)}");
             return null;
         }
 

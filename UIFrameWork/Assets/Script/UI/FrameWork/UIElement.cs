@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Assets.UI.FrameWork
+namespace CJR.UI
 {
     public class UIElement : MonoBehaviour
     {
@@ -40,9 +40,18 @@ namespace Assets.UI.FrameWork
             transform.SetAsLastSibling();
         }
 
+        protected virtual void OnAwake() { }
+        protected virtual void Enable() { }
+
+        void Awake()
+        {
+            OnAwake();
+        }
+
         void OnEnable()
         {
             _myRectTransform = GetComponent<RectTransform>();
+            Enable();
         }
     }
 }

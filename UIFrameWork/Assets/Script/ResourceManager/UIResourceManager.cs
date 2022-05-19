@@ -1,7 +1,7 @@
 ﻿using System;
-using Assets.UI.FrameWork;
+using CJR.UI;
 
-namespace Assets.Script.ResourceManager
+namespace CJR.ResourceManager
 {
     public static class UIResourceManager
     {
