@@ -63,7 +63,7 @@ public class TestGUI : MonoBehaviour
     }
 
 
-    private readonly StringBuilder _sb = new StringBuilder();
+    private readonly StringBuilder _sb = new ();
     Vector3 scrollPosition;
     void ShowSceneScrollView()
     {

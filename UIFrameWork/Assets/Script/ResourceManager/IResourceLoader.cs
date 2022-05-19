@@ -7,5 +7,7 @@ namespace CJR.ResourceManager
     {
         T Get(string name, Action onComplete);
         void GetAsync(string name, Action<AsyncOperation> onComplete);
+
+        void Return(T resource);
     }
 }

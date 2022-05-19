@@ -2,7 +2,12 @@
 
 namespace CJR.UI
 {
-    public class UIElement : MonoBehaviour
+    interface IPoolObject
+    {
+        void Return();
+    }
+
+    public class UIElement : MonoBehaviour, IPoolObject
     {
         private GameObject Parent;
         private RectTransform _myRectTransform;
@@ -42,6 +47,12 @@ namespace CJR.UI
 
         protected virtual void OnAwake() { }
         protected virtual void Enable() { }
+
+        public void Return()
+        {
+            // ResourceManager.Return 에 넣어줘야 한다.
+            // 추가로 ChildElement도 찾아서 처리해주는 게 필요하다.
+        }
 
         void Awake()
         {

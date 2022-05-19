@@ -1,5 +1,5 @@
 using System;
-using System.Collections;
+using System.Collections.Generic;
 using CJR.UI;
 using UnityEngine;
 using Object = UnityEngine.Object;
@@ -8,16 +8,36 @@ namespace CJR.ResourceManager
 {
     public interface IResourcePool<T>
     {
-        Queue ResourceQueue { get; }
+        Queue<T> ResourceQueue { get; }
         T Get();
         void Return(T resource);
     }
 
-    public class UIResourcePool
+    public class UIResourcePool<T> : IResourcePool<T> where T : UIElement 
     {
-        public void Return()
-        {
+        private readonly Queue<T> _resourceQueue = new ();
+        public Queue<T> ResourceQueue => _resourceQueue;
 
+        public T Get()
+        {
+            return null;
+        }
+
+        public void Return(T resource)
+        {
+            if (resource == null)
+            {
+                Debug.Log("resource is null");
+                return;
+            }
+
+            if (ResourceQueue.Contains(resource))
+            {
+                Debug.Log($"already exist resource _ {resource.name}");
+                return;
+            }
+
+            ResourceQueue.Enqueue(resource);
         }
     }
 
@@ -51,6 +71,11 @@ namespace CJR.ResourceManager
         {
             var resource = Resources.LoadAsync(name);
             resource.completed += onComplete;
+        }
+
+        public void Return(T ui)
+        {
+
         }
     }
 }

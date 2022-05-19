@@ -12,5 +12,10 @@ namespace CJR.ResourceManager
         {
             return UIResourceLoader.Get(name, onComplete);
         }
+
+        public static void ReturnUI(UIElement element)
+        {
+            UIResourceLoader.Return(element);
+        }
     }
 }
