@@ -63,7 +63,6 @@ public class TestGUI : MonoBehaviour
         GUILayout.EndArea();
     }
 
-
     private readonly StringBuilder _sb = new ();
     Vector3 scrollPosition;
     void ShowSceneScrollView()

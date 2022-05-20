@@ -1,4 +1,3 @@
-using CJR.Scene;
 using CJR.UI;
 using UnityEngine;
 

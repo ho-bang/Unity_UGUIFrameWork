@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using CJR.ResourceManager;
-using UnityEditorInternal;
 using UnityEngine;
 
 namespace CJR.UI

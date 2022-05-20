@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
-using UnityEngine.Experimental.XR.Interaction;
 using UnityEngine.SceneManagement;
 
 namespace CJR.Scene
