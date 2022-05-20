@@ -60,6 +60,7 @@ namespace CJR.ResourceManager
 
         public void GetAsync(string name, Action<AsyncOperation> onComplete)
         {
+            // 미구현과 마찬가지
             var resource = Resources.LoadAsync(name);
             resource.completed += onComplete;
         }
@@ -81,7 +82,7 @@ namespace CJR.ResourceManager
                 }
                 else
                 {
-                    var resourcePool = GetNewResourcePool();
+                    var resourcePool = GetNewInstance();
                     if (resourcePool == null)
                     {
                         Debug.LogWarning($"return fail _ resource pool is null");
@@ -94,7 +95,7 @@ namespace CJR.ResourceManager
             }
         }
 
-        private IResourcePool<T> GetNewResourcePool()
+        private IResourcePool<T> GetNewInstance()
         {
             return _resourcePoolResourcePoolFactory?.Invoke();
         }

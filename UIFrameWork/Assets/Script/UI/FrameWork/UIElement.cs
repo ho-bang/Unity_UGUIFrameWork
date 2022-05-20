@@ -24,6 +24,13 @@ namespace CJR.UI
 
         public void SetParent(GameObject parent)
         {
+            if (parent == null)
+            {
+                Parent = null;
+                _myRectTransform.SetParent(null, worldPositionStays: false);
+                return;
+            }
+
             Parent = parent;
             var parentUI = Parent.GetComponent<UIElement>();
             if (parentUI != null)

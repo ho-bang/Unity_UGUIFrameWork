@@ -24,7 +24,7 @@ namespace CJR.ResourceManager
                     return default;
                 }
 
-                var instance = UnityEngine.Object.Instantiate(gob);
+                var instance = Instantiate(gob);
                 var element = instance.GetComponent<UIElement>();
                 if (element is IPoolObject<UIElement> poolObj)
                 {
@@ -39,6 +39,13 @@ namespace CJR.ResourceManager
         public UIElement GetUIElementInstance(string name, Action onComplete)
         {
             return _uiElementResourceLoader.Get(name, onComplete) as UIElement;
+        }
+
+        public void ReturnInstance(UIElement element)
+        {
+            element.SetParent(Instance.gameObject);
+
+            _uiElementResourceLoader.Return(element);
         }
     }
 }

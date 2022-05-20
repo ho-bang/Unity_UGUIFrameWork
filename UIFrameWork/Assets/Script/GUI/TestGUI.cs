@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using CJR.Scene;
+using CJR.UI;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -114,12 +115,16 @@ public class TestGUI : MonoBehaviour
         GUILayout.BeginVertical(style, GUILayout.Width(200), GUILayout.Height(100));
         {
             GUILayout.Label("UI List", style);
+            if (GUILayout.Button(text: $"마지막 부터 하나씩 닫기"))
+            {
+                UIManager.CloseFromAbove();
+            }
 
             using (var scrollViewScope = new GUILayout.ScrollViewScope(scrollPosition1, GUILayout.Width(190), GUILayout.Height(100)))
             {
                 scrollPosition1 = scrollViewScope.scrollPosition;
-                
-                foreach (var uiPrefab in _uiList)
+
+                foreach (var uiPrefab in UIManager.OpenedList)
                 {
                     if (GUILayout.Button(text: $"{uiPrefab.name}"))
                     {
