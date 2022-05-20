@@ -1,19 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using CJR.ResourceManager;
 using UnityEngine;
 
 namespace CJR.UI
 {
-    interface IPoolObject
-    {
-        void Return();
-    }
-
-    public class UIElement : MonoBehaviour, IPoolObject
+    public class UIElement : MonoBehaviour, IPoolObject<UIElement>
     {
         private GameObject Parent;
         private readonly List<UIElement> _childElement = new ();
         private RectTransform _myRectTransform;
-
         private bool _active;
 
         protected bool Active
@@ -73,12 +69,6 @@ namespace CJR.UI
         protected virtual void OnAwake() { }
         protected virtual void Enable() { }
 
-        public void Return()
-        {
-            // ResourceManager.Return 에 넣어줘야 한다.
-            // 추가로 ChildElement도 찾아서 처리해주는 게 필요하다.
-        }
-
         void Awake()
         {
             OnAwake();
@@ -89,5 +79,18 @@ namespace CJR.UI
             _myRectTransform = GetComponent<RectTransform>();
             Enable();
         }
+
+        #region IPoolObj
+        public string Key { set; get; }
+        public Action<UIElement> OnReturn { set; get; }
+
+        public void Return()
+        {
+            Close();
+            // object pool에 반환한다.
+            OnReturn?.Invoke(this);
+            // 부모를 ResouceLoader쪽으로 바꾸던가 해야 함
+        }
+        #endregion
     }
 }

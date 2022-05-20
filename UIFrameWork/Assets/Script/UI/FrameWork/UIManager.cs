@@ -6,7 +6,6 @@ namespace CJR.UI
 {
     public static class UIManager
     {
-        //private static readonly Dictionary<string, UIElement_Data<UIElement>> _dic = new();
         private static readonly List<UIElement> _openList = new();
 
         public static UIElement Open(GameObject parent, string name)
@@ -40,15 +39,7 @@ namespace CJR.UI
 
         private static UIElement GetUIElementInstance(string name)
         {
-            //if (_dic.TryGetValue(name, out var elementData) == false)
-            //{
-            //    var element = UIResourceManager.GetUIElementInstance(name, onComplete: null);
-            //    elementData = new UIElement_Data<UIElement>();
-            //    elementData.Init(element);
-            //    _dic.Add(name, elementData);
-            //}
-
-            var element = UIResourceManager.GetUIElementInstance(name, onComplete: null);
+            var element = UIResourceManager.Instance.GetUIElementInstance(name, onComplete: null);
             return element;
         }
     }

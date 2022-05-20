@@ -7,6 +7,6 @@ public class UIElement_Temp : UIElement
 
     public void OnClick()
     {
-        this.Close();
+        this.Return();
     }
 }

@@ -122,8 +122,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1357649320540216285}
-        m_TargetAssemblyTypeName: Assets.UI.FrameWork.UIElement, Assembly-CSharp
-        m_MethodName: Close
+        m_TargetAssemblyTypeName: UIElement_Temp, Assembly-CSharp
+        m_MethodName: OnClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
