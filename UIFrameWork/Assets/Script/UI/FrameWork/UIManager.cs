@@ -25,16 +25,16 @@ namespace CJR.UI
             return element;
         }
 
-        public static void Close(UIDialog ui)
+        public static bool Close(UIDialog ui)
         {
             if (_openList.Contains(ui) == false)
             {
-                return;
+                return false;
             }
 
             if (ui == null)
             {
-                return;
+                return false;
             }
 
             ui.SetParent(null);
@@ -42,6 +42,7 @@ namespace CJR.UI
             ui.Return();
 
             _openList.Remove(ui);
+            return true;
         }
 
         public static void CloseFromAbove()
@@ -78,7 +79,13 @@ namespace CJR.UI
         {
             foreach (var openedUI in _openList)
             {
-                openedUI?.ReceiveMessage(message);
+                if (openedUI == null)
+                {
+                    // 여긴 ~~ 흠.. null 확률이 좀 있지
+                    continue;
+                }
+
+                openedUI.ReceiveMessage(message);
             }
         }
 
@@ -87,7 +94,13 @@ namespace CJR.UI
             var children = game.GetComponentsInChildren<UIDialog>(includeInactive: true);
             foreach (var uiDialog in children)
             {
-                uiDialog?.ReceiveMessage(message);
+                if (uiDialog == null)
+                {
+                    // 여기는 차라리 null날 확률이 적다
+                    continue;
+                }
+
+                uiDialog.ReceiveMessage(message);
             }
         }
     }

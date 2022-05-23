@@ -37,7 +37,7 @@ namespace CJR.Resource
 
         public void GetAsync(string name, Action<AsyncOperation> onComplete)
         {
-            // 미구현과 마찬가지
+            // 미구현
             var resource = Resources.LoadAsync(name);
             resource.completed += onComplete;
         }

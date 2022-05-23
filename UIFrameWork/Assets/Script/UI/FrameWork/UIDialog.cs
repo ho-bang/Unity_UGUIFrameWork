@@ -16,10 +16,10 @@ namespace CJR.UI
         protected bool Active
         {
             get => _active;
-            set
+            private set
             {
                 _active = value;
-                gameObject.gameObject.SetActive(_active);
+                gameObject.SetActive(_active);
             }
         }
 
@@ -33,10 +33,13 @@ namespace CJR.UI
             if (Parent is not null)
             {
                 var parentDialog = Parent.GetComponent<UIDialog>();
-                parentDialog?.RemoveChild(this);
+                if (parentDialog != null)
+                {
+                    parentDialog.RemoveChild(this);
+                }
             }
 
-            if (parent == null)
+            if (parent is null)
             {
                 Parent = null;
                 _myRectTransform.SetParent(null, worldPositionStays: false);
@@ -45,7 +48,8 @@ namespace CJR.UI
             {
                 Parent = parent;
                 var parentUI = Parent.GetComponent<UIDialog>();
-                parentUI?.AddChild(this);
+                if (parentUI is null) return;
+                parentUI.AddChild(this);
 
                 _myRectTransform.SetParent(parent.transform, worldPositionStays: false);
             }
@@ -53,7 +57,7 @@ namespace CJR.UI
 
         public void AddChild(UIDialog dialog)
         {
-            if (dialog == null)
+            if (dialog is null)
             {
                 Debug.Log($"ui is null");
                 return;
@@ -70,7 +74,7 @@ namespace CJR.UI
 
         public void RemoveChild(UIDialog dialog)
         {
-            if (dialog == null)
+            if (dialog is null)
             {
                 Debug.Log($"ui is null");
                 return;

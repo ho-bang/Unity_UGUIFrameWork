@@ -6,34 +6,34 @@ namespace CJR.Resource
 {
     public class UIResourceManager : MonobehaviourSingleton<UIResourceManager>
     {
-        private readonly IResourceLoader<UIDialog> _uiElementResourceLoader = new ResourceLoader<UIDialog>(
+        private readonly IResourceLoader<UIDialog> _uiElementResourceLoader = new ResourceLoader<UIDialog> (
             resourcePoolFactory : () => new ResourcePool<UIDialog>(),
             poolObjectFactory : (path, action) =>
             {
                 var resource = Resources.Load(path);
-                if (resource == null)
+                if (resource is null)
                 {
                     Debug.LogWarning($"resource is null _ {path}");
-                    return default;
+                    return null;
                 }
 
-                var gob = resource as GameObject;
-                if (gob == null)
+                if (resource is not GameObject gob)
                 {
                     Debug.LogWarning($"not gameObject _ {path}");
-                    return default;
+                    return null;
                 }
 
                 var instance = Instantiate(gob);
                 var element = instance.GetComponent<UIDialog>();
-                if (element is IPoolObject<UIDialog> poolObj)
+                if (element is not IPoolObject<UIDialog> poolObj)
                 {
-                    poolObj.OnReturn = action;
-                    poolObj.Key = path;
-                    return poolObj;
+                    return null;
                 }
 
-                return null;
+                poolObj.OnReturn = action;
+                poolObj.Key = path;
+                return poolObj;
+
             });
 
         public UIDialog GetUIElementInstance(string name, Action onComplete)
