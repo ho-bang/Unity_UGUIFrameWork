@@ -88,14 +88,14 @@ public class TestGUI : MonoBehaviour
                     {
                         if (GUILayout.Button( $"¾À Ãß°¡ => [ {secneName} ]"))
                         {
-                            SceneLoader.Instance.LoadUIScene(sceneName: secneName, loadType: LoadSceneMode.Additive, onComplete: null);
+                            SceneLoader.Instance.LoadScene(sceneName: secneName, loadType: LoadSceneMode.Additive, onComplete: null);
                         }
 
                         if (GUILayout.Button(text: $"¾ð·Îµå ÈÄ ¾À ·Îµå => [ {secneName} ]"))
                         {
                             SceneLoader.Instance.UnloadAllOpenedScene(onComplete: () =>
                             {
-                                SceneLoader.Instance.LoadUIScene(sceneName: secneName, loadType: LoadSceneMode.Additive, onComplete: null);
+                                SceneLoader.Instance.LoadScene(sceneName: secneName, loadType: LoadSceneMode.Additive, onComplete: null);
                             });
                         }
                     }

@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using CJR.ResourceManager;
+using CJR.Resource;
 using UnityEngine;
 
 namespace CJR.UI
 {
-    public class UIElement : MonoBehaviour, IPoolObject<UIElement>
+    public class UIDialog : MonoBehaviour, IPoolObject<UIDialog>
     {
         private GameObject Parent;
-        private readonly List<UIElement> _childElement = new ();
+        // 굳이 이걸 두는 게 좋은 짓일까.. 
+        private readonly List<UIDialog> _childElement = new ();
         private RectTransform _myRectTransform;
         private bool _active;
 
@@ -24,38 +25,63 @@ namespace CJR.UI
 
         public void SetParent(GameObject parent)
         {
+            if (Parent == parent)
+            {
+                return;
+            }
+
+            if (Parent is not null)
+            {
+                var parentDialog = Parent.GetComponent<UIDialog>();
+                parentDialog?.RemoveChild(this);
+            }
+
             if (parent == null)
             {
                 Parent = null;
                 _myRectTransform.SetParent(null, worldPositionStays: false);
-                return;
             }
-
-            Parent = parent;
-            var parentUI = Parent.GetComponent<UIElement>();
-            if (parentUI != null)
+            else
             {
-                parentUI.AddChild(this);
-            }
+                Parent = parent;
+                var parentUI = Parent.GetComponent<UIDialog>();
+                parentUI?.AddChild(this);
 
-            _myRectTransform.SetParent(parent.transform, worldPositionStays: false);
+                _myRectTransform.SetParent(parent.transform, worldPositionStays: false);
+            }
         }
 
-        public void AddChild(UIElement element)
+        public void AddChild(UIDialog dialog)
         {
-            if (element == null)
+            if (dialog == null)
             {
                 Debug.Log($"ui is null");
                 return;
             }
 
-            if (_childElement.Contains(element))
+            if (_childElement.Contains(dialog))
             {
-                Debug.Log($"already contain ui {element.name}");
+                Debug.Log($"already contain ui {dialog.name}");
                 return;
             }
 
-            _childElement.Add(element);
+            _childElement.Add(dialog);
+        }
+
+        public void RemoveChild(UIDialog dialog)
+        {
+            if (dialog == null)
+            {
+                Debug.Log($"ui is null");
+                return;
+            }
+
+            if (_childElement.Contains(dialog) == false)
+            {
+                return;
+            }
+
+            _childElement.Remove(dialog);
         }
 
         public void Open()
@@ -73,6 +99,7 @@ namespace CJR.UI
             transform.SetAsLastSibling();
         }
 
+        public virtual void ReceiveMessage(IUIMessage message) { }
         protected virtual void OnAwake() { }
         protected virtual void Enable() { }
 
@@ -89,14 +116,12 @@ namespace CJR.UI
 
         #region IPoolObj
         public string Key { set; get; }
-        public Action<UIElement> OnReturn { set; get; }
+        public Action<UIDialog> OnReturn { set; get; }
 
         public void Return()
         {
-            Close();
             // object pool에 반환한다.
             OnReturn?.Invoke(this);
-            // 부모를 ResouceLoader쪽으로 바꾸던가 해야 함
         }
         #endregion
     }

@@ -3,31 +3,8 @@ using System.Collections.Generic;
 using CJR.UI;
 using UnityEngine;
 
-namespace CJR.ResourceManager
+namespace CJR.Resource
 {
-    public class ResourcePool<T> : IResourcePool<T> where T : IPoolObject<T>
-    {
-        private readonly Queue<T> _resourceQueue = new();
-        public T Get()
-        {
-            if (_resourceQueue.Count > 0)
-                return _resourceQueue.Dequeue();
-
-            return default;
-        }
-
-        public void Return(T resource)
-        {
-            if (_resourceQueue.Contains(resource))
-            {
-                Debug.Log($"contain resource");
-                return;
-            }
-
-            _resourceQueue.Enqueue(resource);
-        }
-    }
-
     public class ResourceLoader<T> : IResourceLoader<T> where T : IPoolObject<T>
     {
         private readonly Dictionary<string, IResourcePool<T>> _elementObjectPool = new();
@@ -51,7 +28,7 @@ namespace CJR.ResourceManager
             var iPoolObject = _poolObjectFactory?.Invoke(path, Return);
             if (iPoolObject == null)
             {
-                Debug.LogWarning($"invalid type resource _ {path} _ type {typeof(UIElement)}");
+                Debug.LogWarning($"invalid Type resource _ {path} _ Type {typeof(UIDialog)}");
                 return null;
             }
 

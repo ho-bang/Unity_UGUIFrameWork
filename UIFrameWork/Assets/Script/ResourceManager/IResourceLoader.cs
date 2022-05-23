@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace CJR.ResourceManager
+namespace CJR.Resource
 {
     public interface IResourceLoader<T> where T : IPoolObject<T>
     {

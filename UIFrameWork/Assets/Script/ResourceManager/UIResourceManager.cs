@@ -2,12 +2,12 @@
 using CJR.UI;
 using UnityEngine;
 
-namespace CJR.ResourceManager
+namespace CJR.Resource
 {
     public class UIResourceManager : MonobehaviourSingleton<UIResourceManager>
     {
-        private readonly IResourceLoader<UIElement> _uiElementResourceLoader = new ResourceLoader<UIElement>(
-            resourcePoolFactory : () => new ResourcePool<UIElement>(),
+        private readonly IResourceLoader<UIDialog> _uiElementResourceLoader = new ResourceLoader<UIDialog>(
+            resourcePoolFactory : () => new ResourcePool<UIDialog>(),
             poolObjectFactory : (path, action) =>
             {
                 var resource = Resources.Load(path);
@@ -25,8 +25,8 @@ namespace CJR.ResourceManager
                 }
 
                 var instance = Instantiate(gob);
-                var element = instance.GetComponent<UIElement>();
-                if (element is IPoolObject<UIElement> poolObj)
+                var element = instance.GetComponent<UIDialog>();
+                if (element is IPoolObject<UIDialog> poolObj)
                 {
                     poolObj.OnReturn = action;
                     poolObj.Key = path;
@@ -36,16 +36,16 @@ namespace CJR.ResourceManager
                 return null;
             });
 
-        public UIElement GetUIElementInstance(string name, Action onComplete)
+        public UIDialog GetUIElementInstance(string name, Action onComplete)
         {
-            return _uiElementResourceLoader.Get(name, onComplete) as UIElement;
+            return _uiElementResourceLoader.Get(name, onComplete) as UIDialog;
         }
 
-        public void ReturnInstance(UIElement element)
+        public void ReturnInstance(UIDialog dialog)
         {
-            element.SetParent(Instance.gameObject);
+            dialog.SetParent(Instance.gameObject);
 
-            _uiElementResourceLoader.Return(element);
+            _uiElementResourceLoader.Return(dialog);
         }
     }
 }

@@ -14,7 +14,7 @@ namespace CJR.Scene
         private readonly List<string> _loadingScene = new();
         private readonly List<string> _unloadingScene = new();
 
-        public void LoadUIScene(string sceneName, LoadSceneMode loadType, Action onComplete)
+        public void LoadScene(string sceneName, LoadSceneMode loadType, Action onComplete)
         {
             if (_openedScenes.Contains(sceneName))
             {
