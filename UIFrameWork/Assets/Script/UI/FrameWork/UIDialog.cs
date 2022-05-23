@@ -114,6 +114,11 @@ namespace CJR.UI
             Enable();
         }
 
+        void OnDestroy()
+        {
+            UIManager.Destory(this);
+        }
+
         #region IPoolObj
         public string Key { set; get; }
         public Action<UIDialog> OnReturn { set; get; }

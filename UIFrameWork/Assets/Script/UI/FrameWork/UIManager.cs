@@ -32,6 +32,11 @@ namespace CJR.UI
                 return;
             }
 
+            if (ui == null)
+            {
+                return;
+            }
+
             ui.SetParent(null);
             ui.Close();
             ui.Return();
@@ -47,17 +52,33 @@ namespace CJR.UI
             }
 
             var closeTarget = _openList[^1];
+            if (closeTarget == null)
+            {
+                _openList.RemoveAt(index: _openList.Count - 1);
+                return;
+            }
+            
             closeTarget.Close();
             _openList.Remove(closeTarget);
 
             UIResourceManager.Instance.ReturnInstance(closeTarget);
         }
 
+        public static void Destory(UIDialog uiDialog)
+        {
+            if (_openList.Count == 0)
+            {
+                return;
+            }
+
+            _openList.Remove(uiDialog);
+        }
+
         public static void SendMessageToOpenList(IUIMessage message)
         {
             foreach (var openedUI in _openList)
             {
-                openedUI.ReceiveMessage(message);
+                openedUI?.ReceiveMessage(message);
             }
         }
 
@@ -66,7 +87,7 @@ namespace CJR.UI
             var children = game.GetComponentsInChildren<UIDialog>(includeInactive: true);
             foreach (var uiDialog in children)
             {
-                uiDialog.ReceiveMessage(message);
+                uiDialog?.ReceiveMessage(message);
             }
         }
     }
