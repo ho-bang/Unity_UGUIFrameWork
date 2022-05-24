@@ -33,7 +33,7 @@ namespace CJR.UI
             if (Parent is not null)
             {
                 var parentDialog = Parent.GetComponent<UIDialog>();
-                if (parentDialog != null)
+                if (parentDialog is not null)
                 {
                     parentDialog.RemoveChild(this);
                 }
@@ -48,9 +48,11 @@ namespace CJR.UI
             {
                 Parent = parent;
                 var parentUI = Parent.GetComponent<UIDialog>();
-                if (parentUI is null) return;
-                parentUI.AddChild(this);
-
+                if (parentUI is not null)
+                {
+                    parentUI.AddChild(this);
+                }
+                
                 _myRectTransform.SetParent(parent.transform, worldPositionStays: false);
             }
         }

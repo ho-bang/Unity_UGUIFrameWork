@@ -14,10 +14,10 @@ namespace CJR.UI
         MessageType.Type Type { get; }
     }
 
-    public class UIMessage_ClickTempSlot : IUIMessage
+    public class UIMessage_EnterGameScene : IUIMessage
     {
         public MessageType.Type Type { private set; get; }
-        public UIMessage_ClickTempSlot(MessageType.Type type)
+        public UIMessage_EnterGameScene(MessageType.Type type)
         {
             Type = type;
         }
