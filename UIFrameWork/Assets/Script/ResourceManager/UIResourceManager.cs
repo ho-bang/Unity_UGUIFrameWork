@@ -33,7 +33,6 @@ namespace CJR.Resource
                 poolObj.OnReturn = action;
                 poolObj.Key = path;
                 return poolObj;
-
             });
 
         public UIDialog GetUIElementInstance(string name, Action onComplete)
@@ -46,6 +45,11 @@ namespace CJR.Resource
             dialog.SetParent(Instance.gameObject);
 
             _uiElementResourceLoader.Return(dialog);
+        }
+
+        public void RemoveInstance(UIDialog dialog)
+        {
+            _uiElementResourceLoader.Remove(dialog);
         }
     }
 }

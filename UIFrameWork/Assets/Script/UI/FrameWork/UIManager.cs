@@ -37,10 +37,10 @@ namespace CJR.UI
                 return false;
             }
 
-            ui.SetParent(null);
             ui.Close();
             ui.Return();
-
+            UIResourceManager.Instance.ReturnInstance(ui);
+            
             _openList.Remove(ui);
             return true;
         }
@@ -67,11 +67,13 @@ namespace CJR.UI
 
         public static void Destory(UIDialog uiDialog)
         {
+            // fake null
+            UIResourceManager.Instance.RemoveInstance(uiDialog);
+
             if (_openList.Count == 0)
             {
                 return;
             }
-
             _openList.Remove(uiDialog);
         }
 

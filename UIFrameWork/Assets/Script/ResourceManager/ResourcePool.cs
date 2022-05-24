@@ -5,24 +5,39 @@ namespace CJR.Resource
 {
     public class ResourcePool<T> : IResourcePool<T> where T : IPoolObject<T>
     {
-        private readonly Queue<T> _resourceQueue = new();
+        private readonly List<T> _resourceQueue = new();
         public T Get()
         {
             if (_resourceQueue.Count > 0)
-                return _resourceQueue.Dequeue();
+            {
+                var dequeue = _resourceQueue[0];
+                _resourceQueue.Remove(dequeue);
+                return dequeue;
+            }
 
             return default;
         }
 
-        public void Return(T resource)
+        public void Return(T instance)
         {
-            if (_resourceQueue.Contains(resource))
+            if (_resourceQueue.Contains(instance))
             {
-                Debug.Log($"contain resource");
+                Debug.Log($"contain instance");
                 return;
             }
 
-            _resourceQueue.Enqueue(resource);
+            _resourceQueue.Add(instance);
+        }
+
+        public void Remove(T instance)
+        {
+            if (_resourceQueue.Contains(instance) == false)
+            {
+                Debug.Log($"contain instance");
+                return;
+            }
+
+            _resourceQueue.Remove(instance);
         }
     }
 }

@@ -20,7 +20,7 @@ namespace CJR.Resource
         public IPoolObject<T> Get(string path, Action onComplete)
         {
             var poolElement = GetFromPool(path);
-            if (poolElement != null)
+            if ((object)poolElement != null)
             {
                 return poolElement;
             }
@@ -28,7 +28,7 @@ namespace CJR.Resource
             var iPoolObject = _poolObjectFactory?.Invoke(path, Return);
             if (iPoolObject == null)
             {
-                Debug.LogWarning($"invalid Type resource _ {path} _ Type {typeof(UIDialog)}");
+                Debug.LogWarning($"invalid Type instance _ {path} _ Type {typeof(UIDialog)}");
                 return null;
             }
 
@@ -42,9 +42,9 @@ namespace CJR.Resource
             resource.completed += onComplete;
         }
 
-        public void Return(T resource)
+        public void Return(T instance)
         {
-            if (resource is IPoolObject<T> poolElement)
+            if (instance is IPoolObject<T> poolElement)
             {
                 var key = poolElement.Key;
                 if (string.IsNullOrEmpty(key))
@@ -55,24 +55,43 @@ namespace CJR.Resource
 
                 if (_elementObjectPool.TryGetValue(key, out var poolObj))
                 {
-                    poolObj?.Return(resource);
+                    poolObj?.Return(instance);
                 }
                 else
                 {
-                    var resourcePool = GetNewInstance();
+                    var resourcePool = GetNewResourcePool();
                     if (resourcePool == null)
                     {
-                        Debug.LogWarning($"return fail _ resource pool is null");
+                        Debug.LogWarning($"return fail _ instance pool is null");
                         return;
                     }
-                    resourcePool.Return(resource);
+                    resourcePool.Return(instance);
 
                     _elementObjectPool.Add(key, resourcePool);
                 }
             }
         }
 
-        private IResourcePool<T> GetNewInstance()
+        // Fake Null을 대비해서 리소스 풀에서 제거하도록 처리한다. 실수를 방지하기 위함
+        public void Remove(T instance)
+        {
+            if (instance is IPoolObject<T> poolElement)
+            {
+                var key = poolElement.Key;
+                if (string.IsNullOrEmpty(key))
+                {
+                    Debug.LogWarning($"not found key _ {key}");
+                    return;
+                }
+
+                if (_elementObjectPool.TryGetValue(key, out var poolObj))
+                {
+                    poolObj?.Remove(instance);
+                }
+            }
+        }
+
+        private IResourcePool<T> GetNewResourcePool()
         {
             return _resourcePoolResourcePoolFactory?.Invoke();
         }

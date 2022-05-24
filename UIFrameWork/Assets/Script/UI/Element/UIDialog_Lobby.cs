@@ -1,12 +1,20 @@
-﻿using CJR.Scene;
+﻿using CJR.GameManager;
 using CJR.UI;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UIDialog_Lobby : UIDialog
 {
-    public Image Image;
+    public Button StartButton;
+
+    protected override void OnAwake()
+    {
+        StartButton = GetComponentInChildren<Button>(true);
+        if (StartButton != null)
+        {
+            StartButton.onClick.AddListener(OnClick);
+        }
+    }
 
     public void OnClick()
     {
@@ -19,13 +27,8 @@ public class UIDialog_Lobby : UIDialog
         {
             case MessageType.Type.ClickTab when type is UIMessage_EnterGameScene ClickTempSlot:
                 Debug.Log($"message Type : {ClickTempSlot.Type} _ {this.name}");
-
                 UIManager.Close(this);
-
-                SceneLoader.Instance.UnloadAllOpenedScene(onComplete: () =>
-                {
-                    SceneLoader.Instance.LoadScene(sceneName: SceneNames.main, loadType: LoadSceneMode.Additive, onComplete: null);
-                });
+                GameManager.Instance.ChangeToMain();
                 break;
         }
     }

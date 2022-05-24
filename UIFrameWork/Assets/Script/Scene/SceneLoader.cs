@@ -8,11 +8,11 @@ namespace CJR.Scene
     public static class SceneNames
     {
         private const string _folderPath = "Scene";
-        private const string _lobby = "Lobby";
+        private const string _lobby = "LobbyScene";
         private const string _main = "Main";
 
-        public static string Lobby => $"{_folderPath}/{_lobby}";
-        public static string main  => $"{_folderPath}/{_main}";
+        public static string Lobby => _lobby;
+        public static string Main  => $"{_folderPath}/{_main}";
     }
 
     //scene load는 기본적으로 비동기 로딩을 원칙으로 한다.
