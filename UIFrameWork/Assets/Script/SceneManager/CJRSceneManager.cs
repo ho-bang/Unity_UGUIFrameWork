@@ -18,7 +18,7 @@ namespace CJR.Scene
                     SceneLoader.Instance.LoadScene(sceneName: SceneNames.Lobby, loadType: LoadSceneMode.Additive, onComplete: null);
                     break;
                 case SceneState.GameScene:
-                    SceneLoader.Instance.LoadScene(sceneName: SceneNames.Main, loadType: LoadSceneMode.Additive, onComplete: null);
+                    SceneLoader.Instance.LoadScene(sceneName: SceneNames.GameScene, loadType: LoadSceneMode.Additive, onComplete: null);
                     break;
             }
         }
@@ -37,7 +37,7 @@ namespace CJR.Scene
                 case SceneState.GameScene:
                     SceneLoader.Instance.UnloadAllOpenedScene(onComplete: () =>
                     {
-                        SceneLoader.Instance.LoadScene(sceneName: SceneNames.Main, loadType: LoadSceneMode.Additive, onComplete: null);
+                        SceneLoader.Instance.LoadScene(sceneName: SceneNames.GameScene, loadType: LoadSceneMode.Additive, onComplete: null);
                     });
 
                     break;

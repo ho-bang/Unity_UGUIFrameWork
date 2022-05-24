@@ -25,7 +25,7 @@ namespace CJR.GameManager
 
         public void ChangeToMain()
         {
-            _sm.ChanageScene(state: CJRSceneManager.SceneState.Lobby);
+            _sm.ChanageScene(state: CJRSceneManager.SceneState.GameScene);
         }
     }
 }

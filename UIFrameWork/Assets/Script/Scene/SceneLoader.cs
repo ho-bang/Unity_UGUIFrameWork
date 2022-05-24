@@ -7,20 +7,15 @@ namespace CJR.Scene
 {
     public static class SceneNames
     {
-        private const string _folderPath = "Scene";
-        private const string _lobby = "LobbyScene";
-        private const string _main = "Main";
-
-        public static string Lobby => _lobby;
-        public static string Main  => $"{_folderPath}/{_main}";
+        public const string Lobby = "LobbyScene";
+        public const string GameScene = "GameScene";
     }
 
     //scene load는 기본적으로 비동기 로딩을 원칙으로 한다.
     public class SceneLoader : MonobehaviourSingleton<SceneLoader>
     {
-        private readonly List<string> _openedScenes = new();
         public IReadOnlyList<string> ReadOnlyOpenedScenes => _openedScenes;
-
+        private readonly List<string> _openedScenes = new();
         private readonly List<string> _loadingScene = new();
         private readonly List<string> _unloadingScene = new();
 

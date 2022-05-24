@@ -128,7 +128,6 @@ namespace CJR.UI
         #region IPoolObj
         public string Key { set; get; }
         public Action<UIDialog> OnReturn { set; get; }
-
         public void Return()
         {
             // object pool에 반환한다.

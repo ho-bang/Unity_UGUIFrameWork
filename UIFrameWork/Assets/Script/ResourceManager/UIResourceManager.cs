@@ -7,7 +7,7 @@ namespace CJR.Resource
     public class UIResourceManager : MonobehaviourSingleton<UIResourceManager>
     {
         private readonly IResourceLoader<UIDialog> _uiElementResourceLoader = new ResourceLoader<UIDialog> (
-            resourcePoolFactory : () => new ResourcePool<UIDialog>(),
+            resourcePoolFactory : () => new InstancePool<UIDialog>(),
             poolObjectFactory : (path, action) =>
             {
                 var resource = Resources.Load(path);

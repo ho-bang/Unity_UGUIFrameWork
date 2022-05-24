@@ -11,7 +11,7 @@ namespace CJR.Resource
         void Remove(T instance);
     }
 
-    public interface IResourcePool<T> where T : IPoolObject<T>
+    public interface IInstancePool<T> where T : IPoolObject<T>
     {
         T Get();
         void Return(T instance);

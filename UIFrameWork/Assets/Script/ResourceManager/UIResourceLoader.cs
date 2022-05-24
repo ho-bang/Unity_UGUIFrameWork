@@ -7,11 +7,11 @@ namespace CJR.Resource
 {
     public class ResourceLoader<T> : IResourceLoader<T> where T : IPoolObject<T>
     {
-        private readonly Dictionary<string, IResourcePool<T>> _elementObjectPool = new();
-        private readonly Func<IResourcePool<T>> _resourcePoolResourcePoolFactory;
+        private readonly Dictionary<string, IInstancePool<T>> _elementObjectPool = new();
+        private readonly Func<IInstancePool<T>> _resourcePoolResourcePoolFactory;
         private readonly Func<string, Action<T>, IPoolObject<T>> _poolObjectFactory;
 
-        public ResourceLoader(Func<IResourcePool<T>> resourcePoolFactory, Func<string, Action<T>, IPoolObject<T>> poolObjectFactory)
+        public ResourceLoader(Func<IInstancePool<T>> resourcePoolFactory, Func<string, Action<T>, IPoolObject<T>> poolObjectFactory)
         {
             _resourcePoolResourcePoolFactory = resourcePoolFactory;
             _poolObjectFactory = poolObjectFactory;
@@ -20,13 +20,13 @@ namespace CJR.Resource
         public IPoolObject<T> Get(string path, Action onComplete)
         {
             var poolElement = GetFromPool(path);
-            if ((object)poolElement != null)
+            if (poolElement is not null)
             {
                 return poolElement;
             }
 
             var iPoolObject = _poolObjectFactory?.Invoke(path, Return);
-            if (iPoolObject == null)
+            if (iPoolObject is null)
             {
                 Debug.LogWarning($"invalid Type instance _ {path} _ Type {typeof(UIDialog)}");
                 return null;
@@ -60,7 +60,7 @@ namespace CJR.Resource
                 else
                 {
                     var resourcePool = GetNewResourcePool();
-                    if (resourcePool == null)
+                    if (resourcePool is null)
                     {
                         Debug.LogWarning($"return fail _ instance pool is null");
                         return;
@@ -91,23 +91,20 @@ namespace CJR.Resource
             }
         }
 
-        private IResourcePool<T> GetNewResourcePool()
+        private IInstancePool<T> GetNewResourcePool()
         {
             return _resourcePoolResourcePoolFactory?.Invoke();
         }
 
         private T GetFromPool(string path)
         {
-            if (_elementObjectPool.TryGetValue(path, out var pool))
+            if (!_elementObjectPool.TryGetValue(path, out var pool))
             {
-                var poolObj = pool.Get();
-                if (poolObj != null)
-                {
-                    return poolObj;
-                }
+                return default;
             }
 
-            return default;
+            var poolObj = pool.Get();
+            return poolObj ?? default;
         }
     }
 }

@@ -3,15 +3,15 @@ using UnityEngine;
 
 namespace CJR.Resource
 {
-    public class ResourcePool<T> : IResourcePool<T> where T : IPoolObject<T>
+    public class InstancePool<T> : IInstancePool<T> where T : IPoolObject<T>
     {
-        private readonly List<T> _resourceQueue = new();
+        private readonly List<T> _instanceQueue = new();
         public T Get()
         {
-            if (_resourceQueue.Count > 0)
+            if (_instanceQueue.Count > 0)
             {
-                var dequeue = _resourceQueue[0];
-                _resourceQueue.Remove(dequeue);
+                var dequeue = _instanceQueue[0];
+                _instanceQueue.Remove(dequeue);
                 return dequeue;
             }
 
@@ -20,24 +20,24 @@ namespace CJR.Resource
 
         public void Return(T instance)
         {
-            if (_resourceQueue.Contains(instance))
+            if (_instanceQueue.Contains(instance))
             {
                 Debug.Log($"contain instance");
                 return;
             }
 
-            _resourceQueue.Add(instance);
+            _instanceQueue.Add(instance);
         }
 
         public void Remove(T instance)
         {
-            if (_resourceQueue.Contains(instance) == false)
+            if (_instanceQueue.Contains(instance) == false)
             {
                 Debug.Log($"contain instance");
                 return;
             }
 
-            _resourceQueue.Remove(instance);
+            _instanceQueue.Remove(instance);
         }
     }
 }
