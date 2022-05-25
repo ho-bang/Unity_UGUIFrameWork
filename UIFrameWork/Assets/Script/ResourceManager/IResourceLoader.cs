@@ -7,15 +7,15 @@ namespace CJR.Resource
     {
         IPoolObject<T> Get(string path, Action onComplete);
         void GetAsync(string name, Action<AsyncOperation> onComplete);
-        void Return(T instance);
+        void Return(IPoolObject<T> instance);
         void Remove(T instance);
     }
 
     public interface IInstancePool<T> where T : IPoolObject<T>
     {
-        T Get();
-        void Return(T instance);
-        void Remove(T instance);
+        IPoolObject<T> Get();
+        void Return(IPoolObject<T> instance);
+        void Remove(IPoolObject<T> instance);
     }
 
     public interface IPoolObject<T>

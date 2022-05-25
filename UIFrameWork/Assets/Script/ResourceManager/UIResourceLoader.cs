@@ -9,9 +9,9 @@ namespace CJR.Resource
     {
         private readonly Dictionary<string, IInstancePool<T>> _elementObjectPool = new();
         private readonly Func<IInstancePool<T>> _resourcePoolResourcePoolFactory;
-        private readonly Func<string, Action<T>, IPoolObject<T>> _poolObjectFactory;
+        private readonly Func<string, Action<IPoolObject<T>>, IPoolObject<T>> _poolObjectFactory;
 
-        public ResourceLoader(Func<IInstancePool<T>> resourcePoolFactory, Func<string, Action<T>, IPoolObject<T>> poolObjectFactory)
+        public ResourceLoader(Func<IInstancePool<T>> resourcePoolFactory, Func<string, Action<IPoolObject<T>>, IPoolObject<T>> poolObjectFactory)
         {
             _resourcePoolResourcePoolFactory = resourcePoolFactory;
             _poolObjectFactory = poolObjectFactory;
@@ -42,33 +42,30 @@ namespace CJR.Resource
             resource.completed += onComplete;
         }
 
-        public void Return(T instance)
+        public void Return(IPoolObject<T> instance)
         {
-            if (instance is IPoolObject<T> poolElement)
+            var key = instance.Key;
+            if (string.IsNullOrEmpty(key))
             {
-                var key = poolElement.Key;
-                if (string.IsNullOrEmpty(key))
+                Debug.LogWarning($"not found key _ {key}");
+                return;
+            }
+
+            if (_elementObjectPool.TryGetValue(key, out var instancePool))
+            {
+                instancePool?.Return(instance);
+            }
+            else
+            {
+                instancePool = GetNewResourcePool();
+                if (instancePool is null)
                 {
-                    Debug.LogWarning($"not found key _ {key}");
+                    Debug.LogWarning($"return fail _ instance pool is null");
                     return;
                 }
 
-                if (_elementObjectPool.TryGetValue(key, out var poolObj))
-                {
-                    poolObj?.Return(instance);
-                }
-                else
-                {
-                    var resourcePool = GetNewResourcePool();
-                    if (resourcePool is null)
-                    {
-                        Debug.LogWarning($"return fail _ instance pool is null");
-                        return;
-                    }
-                    resourcePool.Return(instance);
-
-                    _elementObjectPool.Add(key, resourcePool);
-                }
+                instancePool.Return(instance);
+                _elementObjectPool.Add(key, instancePool);
             }
         }
 
@@ -96,7 +93,7 @@ namespace CJR.Resource
             return _resourcePoolResourcePoolFactory?.Invoke();
         }
 
-        private T GetFromPool(string path)
+        private IPoolObject<T> GetFromPool(string path)
         {
             if (!_elementObjectPool.TryGetValue(path, out var pool))
             {
@@ -104,7 +101,10 @@ namespace CJR.Resource
             }
 
             var poolObj = pool.Get();
-            return poolObj ?? default;
+            if (poolObj == null)
+                return default;
+
+            return poolObj;
         }
     }
 }
