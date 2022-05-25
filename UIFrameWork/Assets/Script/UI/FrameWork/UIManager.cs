@@ -11,7 +11,7 @@ namespace CJR.UI
         public static IReadOnlyList<UIDialog> OpenedList => _openList;
         public static UIDialog Open(GameObject parent, string name)
         {
-            var element = UIResourceManager.Instance?.GetUIElementInstance(name, onComplete: null);
+            var element = UIResourceManager.Instance?.GetDialogInstance(name, onComplete: null);
             if (element == null)
             {
                 return null;

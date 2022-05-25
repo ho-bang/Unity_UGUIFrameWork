@@ -31,7 +31,7 @@ namespace CJR.Resource
                 return element;
             });
 
-        public UIDialog GetUIElementInstance(string name, Action onComplete)
+        public UIDialog GetDialogInstance(string name, Action onComplete)
         {
             return _uiDialogObjectLoader.Get(name, onComplete);
         }

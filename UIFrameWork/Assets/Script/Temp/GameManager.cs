@@ -3,10 +3,12 @@
 namespace CJR.GameManager
 {
     using Scene;
+    using GameScene;
 
     public class GameManager : MonobehaviourSingleton<GameManager>
     {
         public SceneLoader SceneLoader { get; } = new SceneLoader();
+        public GameSceneManager GameSceneManager { get; } = new GameSceneManager();
 
         void Awake()
         {
