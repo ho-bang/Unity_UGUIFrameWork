@@ -62,5 +62,14 @@
         </outline>
       </outline>
     </outline>
+    <outline text="5.19">
+      <outline text="에디터 유아이 만들어서 씬 이동" />
+      <outline text="GameManager">
+        <outline text="기본 시퀀스가 필요하다." />
+      </outline>
+      <outline text="ChangeScene">
+        <outline text="MainScene" />
+      </outline>
+    </outline>
   </body>
 </opml>

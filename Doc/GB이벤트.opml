@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<opml version="1.0">
+  <head />
+  <body>
+    <outline text="Observer">
+      <outline text="ex) GamebaseObserverManager" />
+      <outline text="ObserverManager" />
+      <outline text="GamebaseCallBackHander.RegisterCallback을 동하여 OnObserverEvent를 등록한다.">
+        <outline text="그럼 Handle을 반환 받는데, 요 Handle은 또 다른 데 등록을 한다." />
+        <outline text="어따가 등록을 하는데?" />
+      </outline>
+      <outline text="observerSet이라는 HashSet을 가지는데, 요 녀석은 OnObserverEvent라는 녀석이 호출될 때 Invoke되는 함수 컨테이너다" />
+      <outline text="왜 사용할까?">
+        <outline text="종속 성을 줄이고 필요한 부분에 이벤트를 등록해서 콜백을 받아 처리하기 위해서" />
+      </outline>
+    </outline>
+    <outline text="DelegateManager" />
+    <outline text="ConfigAddress">
+      <outline text="요거 Live로 바꿀 것" />
+    </outline>
+    <outline text="AppName">
+      <outline text="요거도 Stage로 되어있는데 수정할 것" />
+    </outline>
+    <outline text="counterSideGBLLive" />
+  </body>
+</opml>
