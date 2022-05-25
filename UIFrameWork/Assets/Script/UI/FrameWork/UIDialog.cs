@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace CJR.UI
 {
-    public class UIDialog : MonoBehaviour, IPoolObject<UIDialog>
+    public class UIDialog : MonoBehaviour
     {
         private GameObject Parent;
         // 굳이 이걸 두는 게 좋은 짓일까.. 
@@ -126,12 +126,13 @@ namespace CJR.UI
         }
 
         #region IPoolObj
-        public string Key { set; get; }
-        public Action<UIDialog> OnReturn { set; get; }
+
+        public string Key;
+        public Action<string, UIDialog> OnReturn { set; get; }
         public void Return()
         {
             // object pool에 반환한다.
-            OnReturn?.Invoke(this);
+            OnReturn?.Invoke(Key, this);
         }
         #endregion
     }

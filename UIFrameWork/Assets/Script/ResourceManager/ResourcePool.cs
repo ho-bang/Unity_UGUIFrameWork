@@ -3,10 +3,11 @@ using UnityEngine;
 
 namespace CJR.Resource
 {
-    public class InstancePool<T> : IInstancePool<T> where T : IPoolObject<T>
+    public class ObjectPool<T> : IObjectPool<T> where T : Object
     {
-        private readonly List<IPoolObject<T>> _instanceQueue = new();
-        public IPoolObject<T> Get()
+        private readonly List<T> _instanceQueue = new();
+
+        public T Get()
         {
             if (_instanceQueue.Count > 0)
             {
@@ -15,10 +16,10 @@ namespace CJR.Resource
                 return dequeue;
             }
 
-            return default;
+            return null;
         }
 
-        public void Return(IPoolObject<T> instance)
+        public void Return(T instance)
         {
             if (_instanceQueue.Contains(instance))
             {
@@ -29,7 +30,7 @@ namespace CJR.Resource
             _instanceQueue.Add(instance);
         }
 
-        public void Remove(IPoolObject<T> instance)
+        public void Remove(T instance)
         {
             if (_instanceQueue.Contains(instance) == false)
             {

@@ -1,27 +1,21 @@
 using System;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace CJR.Resource
 {
-    public interface IResourceLoader<T> where T : IPoolObject<T>
+    public interface IObjectPool<T> where T : Object
     {
-        IPoolObject<T> Get(string path, Action onComplete);
-        void GetAsync(string name, Action<AsyncOperation> onComplete);
-        void Return(IPoolObject<T> instance);
+        T Get();
+        void Return(T instance);
         void Remove(T instance);
     }
 
-    public interface IInstancePool<T> where T : IPoolObject<T>
+    public interface IObjectLoader<T> where T : Object
     {
-        IPoolObject<T> Get();
-        void Return(IPoolObject<T> instance);
-        void Remove(IPoolObject<T> instance);
-    }
-
-    public interface IPoolObject<T>
-    {
-        string Key { set; get; }
-        Action<T> OnReturn { set; get; }
-        void Return();
+        T Get(string key, Action onComplete);
+        void GetAsync(string key, Action<AsyncOperation> onComplete);
+        void Return(string key, T obj);
+        void Remove(string key, T obj);
     }
 }

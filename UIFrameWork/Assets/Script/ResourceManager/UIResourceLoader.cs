@@ -2,100 +2,83 @@ using System;
 using System.Collections.Generic;
 using CJR.UI;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace CJR.Resource
 {
-    public class ResourceLoader<T> : IResourceLoader<T> where T : IPoolObject<T>
+    public class ObjectLoader<T> : IObjectLoader<T> where T : Object
     {
-        private readonly Dictionary<string, IInstancePool<T>> _elementObjectPool = new();
-        private readonly Func<IInstancePool<T>> _resourcePoolResourcePoolFactory;
-        private readonly Func<string, Action<IPoolObject<T>>, IPoolObject<T>> _poolObjectFactory;
+        private readonly Dictionary<string, IObjectPool<T>> _objectPoolDic = new();
+        private readonly Func<IObjectPool<T>> _resourcePoolResourcePoolFactory;
+        private readonly Func<string, Action<string, T>, T> _poolObjectFactory;
+        private IObjectLoader<T> _objectLoaderImplementation;
 
-        public ResourceLoader(Func<IInstancePool<T>> resourcePoolFactory, Func<string, Action<IPoolObject<T>>, IPoolObject<T>> poolObjectFactory)
+        public ObjectLoader(Func<IObjectPool<T>> resourcePoolFactory, Func<string, Action<string, T>, T> poolObjectFactory)
         {
             _resourcePoolResourcePoolFactory = resourcePoolFactory;
             _poolObjectFactory = poolObjectFactory;
         }
-
-        public IPoolObject<T> Get(string path, Action onComplete)
+       
+        public T Get(string key, Action onComplete)
         {
-            var poolElement = GetFromPool(path);
-            if (poolElement is not null)
+            var poolObject = GetFromPool(key);
+            if (poolObject is not null)
             {
-                return poolElement;
+                return poolObject;
             }
 
-            var iPoolObject = _poolObjectFactory?.Invoke(path, Return);
+            var iPoolObject = _poolObjectFactory?.Invoke(key, Return);
             if (iPoolObject is null)
             {
-                Debug.LogWarning($"invalid Type instance _ {path} _ Type {typeof(UIDialog)}");
+                Debug.LogWarning($"invalid Type instance _ {key} _ Type {typeof(UIDialog)}");
                 return null;
             }
 
             return iPoolObject;
         }
 
-        public void GetAsync(string name, Action<AsyncOperation> onComplete)
+        public void GetAsync(string key, Action<AsyncOperation> onComplete)
         {
             // 미구현
-            var resource = Resources.LoadAsync(name);
-            resource.completed += onComplete;
         }
 
-        public void Return(IPoolObject<T> instance)
+        public void Return(string key, T obj)
         {
-            var key = instance.Key;
-            if (string.IsNullOrEmpty(key))
+            if (_objectPoolDic.TryGetValue(key, out var instancePool))
             {
-                Debug.LogWarning($"not found key _ {key}");
-                return;
-            }
-
-            if (_elementObjectPool.TryGetValue(key, out var instancePool))
-            {
-                instancePool?.Return(instance);
+                instancePool?.Return(obj);
             }
             else
             {
-                instancePool = GetNewResourcePool();
+                instancePool = _resourcePoolResourcePoolFactory?.Invoke();
                 if (instancePool is null)
                 {
                     Debug.LogWarning($"return fail _ instance pool is null");
                     return;
                 }
 
-                instancePool.Return(instance);
-                _elementObjectPool.Add(key, instancePool);
+                instancePool.Return(obj);
+                _objectPoolDic.Add(key, instancePool);
             }
         }
 
-        // Fake Null을 대비해서 리소스 풀에서 제거하도록 처리한다. 실수를 방지하기 위함
-        public void Remove(T instance)
+        public void Remove(string key, T obj)
         {
-            if (instance is IPoolObject<T> poolElement)
+            if (string.IsNullOrEmpty(key))
             {
-                var key = poolElement.Key;
-                if (string.IsNullOrEmpty(key))
-                {
-                    Debug.LogWarning($"not found key _ {key}");
-                    return;
-                }
+                Debug.LogWarning($"not found key _ {key}");
+                return;
+            }
 
-                if (_elementObjectPool.TryGetValue(key, out var poolObj))
-                {
-                    poolObj?.Remove(instance);
-                }
+            if (_objectPoolDic.TryGetValue(key, out var poolObj))
+            {
+                poolObj?.Remove(obj);
             }
         }
 
-        private IInstancePool<T> GetNewResourcePool()
+        private T GetFromPool(string key)
         {
-            return _resourcePoolResourcePoolFactory?.Invoke();
-        }
-
-        private IPoolObject<T> GetFromPool(string path)
-        {
-            if (!_elementObjectPool.TryGetValue(path, out var pool))
+            if (!_objectPoolDic.TryGetValue(key, out var pool))
             {
                 return default;
             }
