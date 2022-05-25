@@ -2,6 +2,8 @@ using UnityEngine.SceneManagement;
 
 namespace CJR.Scene
 {
+    using GameManager;
+
     public class CJRSceneManager 
     {
         public enum SceneState
@@ -15,10 +17,10 @@ namespace CJR.Scene
             switch (state)
             {
                 case SceneState.Lobby:
-                    SceneLoader.Instance.LoadScene(sceneName: SceneNames.Lobby, loadType: LoadSceneMode.Additive, onComplete: null);
+                    GameManager.Instance.SceneLoader.LoadScene(sceneName: SceneNames.UIScene, loadType: LoadSceneMode.Additive, onComplete: null);
                     break;
                 case SceneState.GameScene:
-                    SceneLoader.Instance.LoadScene(sceneName: SceneNames.GameScene, loadType: LoadSceneMode.Additive, onComplete: null);
+                    GameManager.Instance.SceneLoader.LoadScene(sceneName: SceneNames.GameScene, loadType: LoadSceneMode.Additive, onComplete: null);
                     break;
             }
         }
@@ -28,18 +30,17 @@ namespace CJR.Scene
             switch (state)
             {
                 case SceneState.Lobby:
-                    SceneLoader.Instance.UnloadAllOpenedScene(onComplete: () =>
+                    GameManager.Instance.SceneLoader.UnloadAllOpenedScene(onComplete: () =>
                     {
-                        SceneLoader.Instance.LoadScene(sceneName: SceneNames.Lobby, loadType: LoadSceneMode.Additive, onComplete: null);
+                        GameManager.Instance.SceneLoader.LoadScene(sceneName: SceneNames.UIScene, loadType: LoadSceneMode.Additive, onComplete: null);
                     });
 
                     break;
                 case SceneState.GameScene:
-                    SceneLoader.Instance.UnloadAllOpenedScene(onComplete: () =>
+                    GameManager.Instance.SceneLoader.UnloadAllOpenedScene(onComplete: () =>
                     {
-                        SceneLoader.Instance.LoadScene(sceneName: SceneNames.GameScene, loadType: LoadSceneMode.Additive, onComplete: null);
+                        GameManager.Instance.SceneLoader.LoadScene(sceneName: SceneNames.GameScene, loadType: LoadSceneMode.Additive, onComplete: null);
                     });
-
                     break;
             }
         }

@@ -7,12 +7,12 @@ namespace CJR.Scene
 {
     public static class SceneNames
     {
-        public const string Lobby = "LobbyScene";
+        public const string UIScene = "UIScene";
         public const string GameScene = "GameScene";
     }
 
     //scene load는 기본적으로 비동기 로딩을 원칙으로 한다.
-    public class SceneLoader : MonobehaviourSingleton<SceneLoader>
+    public class SceneLoader
     {
         public IReadOnlyList<string> ReadOnlyOpenedScenes => _openedScenes;
         private readonly List<string> _openedScenes = new();

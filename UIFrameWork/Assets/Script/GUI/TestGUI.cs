@@ -3,6 +3,7 @@ using System.IO;
 using System.Text;
 using CJR.Scene;
 using CJR.UI;
+using CJR.GameManager;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -74,7 +75,7 @@ public class TestGUI : MonoBehaviour
             GUILayout.Label("Scene List", style);
             
             _sb.Clear();
-            foreach (var cs in SceneLoader.Instance.ReadOnlyOpenedScenes)
+            foreach (var cs in GameManager.Instance.SceneLoader.ReadOnlyOpenedScenes)
             {
                 _sb.Append(cs).AppendLine();
             }
@@ -88,14 +89,14 @@ public class TestGUI : MonoBehaviour
                     {
                         if (GUILayout.Button( $"¾À Ãß°¡ => [ {secneName} ]"))
                         {
-                            SceneLoader.Instance.LoadScene(sceneName: secneName, loadType: LoadSceneMode.Additive, onComplete: null);
+                            GameManager.Instance.SceneLoader.LoadScene(sceneName: secneName, loadType: LoadSceneMode.Additive, onComplete: null);
                         }
 
                         if (GUILayout.Button(text: $"¾ð·Îµå ÈÄ ¾À ·Îµå => [ {secneName} ]"))
                         {
-                            SceneLoader.Instance.UnloadAllOpenedScene(onComplete: () =>
+                            GameManager.Instance.SceneLoader.UnloadAllOpenedScene(onComplete: () =>
                             {
-                                SceneLoader.Instance.LoadScene(sceneName: secneName, loadType: LoadSceneMode.Additive, onComplete: null);
+                                GameManager.Instance.SceneLoader.LoadScene(sceneName: secneName, loadType: LoadSceneMode.Additive, onComplete: null);
                             });
                         }
                     }
