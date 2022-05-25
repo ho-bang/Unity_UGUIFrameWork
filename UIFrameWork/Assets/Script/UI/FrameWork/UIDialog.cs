@@ -122,7 +122,7 @@ namespace CJR.UI
 
         void OnDestroy()
         {
-            UIManager.Destory(this);
+            UIManager.Destroy(this);
         }
 
         #region IPoolObj
