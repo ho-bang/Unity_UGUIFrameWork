@@ -65,7 +65,7 @@ namespace CJR.UI
             UIResourceManager.Instance?.ReturnInstance(closeTarget);
         }
 
-        public static void Destroy(UIDialog uiDialog)
+        public static void OnDestroy(UIDialog uiDialog)
         {
             // fake null
             UIResourceManager.Instance?.RemoveInstance(uiDialog);

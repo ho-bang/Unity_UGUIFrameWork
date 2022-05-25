@@ -1,11 +1,12 @@
-﻿namespace CJR.GameManager
+﻿using UnityEngine.SceneManagement;
+
+namespace CJR.GameManager
 {
-    using CJR.Scene;
+    using Scene;
 
     public class GameManager : MonobehaviourSingleton<GameManager>
     {
-        public readonly SceneLoader SceneLoader = new SceneLoader();
-        private readonly CJRSceneManager _sm = new ();
+        public SceneLoader SceneLoader { get; } = new SceneLoader();
 
         void Awake()
         {
@@ -14,22 +15,17 @@
 
         public void AddLobbyScene()
         {
-            _sm.AddScene(state: CJRSceneManager.SceneState.Lobby);
+            SceneLoader.LoadScene(sceneName: SceneNames.UIScene, loadType: LoadSceneMode.Additive, onComplete: AddSceneComplete);
         }
 
         public void AddGameScene()
         {
-            _sm. AddScene(state: CJRSceneManager.SceneState.GameScene);
+            SceneLoader.LoadScene(sceneName: SceneNames.GameScene, loadType: LoadSceneMode.Additive, onComplete: AddSceneComplete);
         }
 
-        public void ChangeToLobby()
+        private void AddSceneComplete()
         {
-            _sm.ChanageScene(state: CJRSceneManager.SceneState.Lobby);
-        }
 
-        public void ChangeToMain()
-        {
-            _sm.ChanageScene(state: CJRSceneManager.SceneState.GameScene);
         }
     }
 }
