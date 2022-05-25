@@ -11,7 +11,6 @@ namespace CJR.Resource
         private readonly Dictionary<string, IObjectPool<T>> _objectPoolDic = new();
         private readonly Func<IObjectPool<T>> _resourcePoolResourcePoolFactory;
         private readonly Func<string, Action<string, T>, T> _poolObjectFactory;
-        private IObjectLoader<T> _objectLoaderImplementation;
 
         public ObjectLoader(Func<IObjectPool<T>> resourcePoolFactory, Func<string, Action<string, T>, T> poolObjectFactory)
         {
