@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using CJR.UI;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -29,7 +28,7 @@ namespace CJR.Resource
             var iPoolObject = _poolObjectFactory?.Invoke(key, Return);
             if (iPoolObject is null)
             {
-                Debug.LogWarning($"invalid Type instance _ {key} _ Type {typeof(UIDialog)}");
+                Debug.LogWarning($"invalid Type instance _ {key} _ Type {typeof(T)}");
                 return null;
             }
 
@@ -83,10 +82,7 @@ namespace CJR.Resource
             }
 
             var poolObj = pool.Get();
-            if (poolObj == null)
-                return default;
-
-            return poolObj;
+            return poolObj == null ? default : poolObj;
         }
     }
 }

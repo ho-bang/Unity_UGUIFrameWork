@@ -1,9 +1,10 @@
 ﻿using System;
-using CJR.UI;
 using UnityEngine;
 
 namespace CJR.Resource
 {
+    using UI;
+    
     public class UIResourceManager : MonobehaviourSingleton<UIResourceManager>
     {
         private readonly IObjectLoader<UIDialog> _uiDialogObjectLoader = new ObjectLoader<UIDialog>(
