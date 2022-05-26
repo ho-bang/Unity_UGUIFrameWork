@@ -51,7 +51,7 @@ namespace CJR.Resource
                 instancePool = _resourcePoolResourcePoolFactory?.Invoke();
                 if (instancePool is null)
                 {
-                    Debug.LogWarning($"return fail _ instance pool is null");
+                    Debug.LogWarning($"return fail");
                     return;
                 }
 

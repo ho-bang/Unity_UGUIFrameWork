@@ -5,9 +5,9 @@ namespace CJR.GameScene
 {
     public class GameSceneManager : MonoBehaviour
     {
-        private IScene _currentScene;
+        private SceneBase _currentScene;
 
-        public void StartScene(GameScene.SceneType scene)
+        public void StartScene(SceneBase scene, GameScene.SceneType sceneType)
         {
             if (_currentScene != null)
             {
@@ -15,28 +15,44 @@ namespace CJR.GameScene
                 DisposeCurrentScene();
             }
 
-            switch (scene)
+            switch (scene.SceneType)
             {
                 case GameScene.SceneType.Lobby:
-                    _currentScene = new LobbyScene();
-                    _currentScene.GameSceneDataHandler += OnChangedCurrentSceneData;
-                    _currentScene.Start();
+                    _currentScene = scene;
                     break;
                 case GameScene.SceneType.Game:
                     break;
             }
-
-            _currentScene?.Start();
         }
 
-        public void OnChangedCurrentSceneData(object sender, GameScene.SceneDataArgs args)
+        public void DisposeCurrentScene()
         {
-            switch (args.State)
+            _currentScene = null;
+        }
+
+        private void UpdateCurrentScene()
+        {
+            if (_currentScene.State == GameScene.SceneDataState.FinishEnd)
             {
+                return;
+            }
+
+            var dt = Time.deltaTime;
+            _currentScene?.OnUpdate(dt);
+
+            switch (_currentScene.State)
+            {
+                case GameScene.SceneDataState.None:
+                    _currentScene.OnStart();
+                    break;
                 case GameScene.SceneDataState.Start:
-                    _currentScene.UILoad();
+                    break;
+                case GameScene.SceneDataState.StartEnd:
+                    _currentScene.OnFinish();
                     break;
                 case GameScene.SceneDataState.Finish:
+                    break;
+                case GameScene.SceneDataState.FinishEnd:
                     DisposeCurrentScene();
                     break;
                 default:
@@ -44,15 +60,9 @@ namespace CJR.GameScene
             }
         }
 
-        public void DisposeCurrentScene()
-        {
-            _currentScene.Dispose();
-            _currentScene = null;
-        }
-
         void Update()
         {
-            _currentScene?.Update();
+            UpdateCurrentScene();
         }
     }
 }

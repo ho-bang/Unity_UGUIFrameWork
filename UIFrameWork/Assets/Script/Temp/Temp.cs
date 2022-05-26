@@ -7,7 +7,7 @@ public class Temp : MonoBehaviour
 
     void Start()
     {
-        var element= UIManager.Open(canvas.gameObject, "UI/Lobby/TempLobby");
+        //var element= UIManager.Open(canvas.gameObject, "UI/Lobby/TempLobby");
 
         //UIManager.Open(canvas.gameObject, "TempUIPrefabs/TempUI");
         //var element1 = UIManager.Open(canvas.gameObject, "TempUIPrefabs/TempUI");

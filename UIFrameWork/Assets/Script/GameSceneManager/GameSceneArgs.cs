@@ -10,6 +10,7 @@ namespace CJR.GameScene
 
         public enum SceneDataState
         {
+            None,
             Start,
             StartEnd,
             Finish,

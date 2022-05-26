@@ -1,86 +1,49 @@
+using CJR.UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace CJR.GameScene
 {
     using Scene;
-    public class LobbyScene : IScene
+    public class LobbyScene : SceneBase
     {
+        public Canvas UiCanvas;
+        [field: SerializeField] public override UIDialog[] UIList { set; get; }
+        [field: SerializeField] public override string[] UIResourcePath { set; get; }
+        
+        public GameScene.SceneType _sceneType;
+        public override GameScene.SceneType SceneType => _sceneType;
+        
         private GameScene.SceneDataState _state;
-        public GameScene.SceneDataState State
+        public override GameScene.SceneDataState State => _state;
+
+
+        public override void OnStart()
         {
-            private set
+            _state = GameScene.SceneDataState.Start;
+            void SceneLoadEnd()
             {
-                _state = value;
-                _eventHandler?.Invoke(this, new GameScene.SceneDataArgs(_state));
+                _state = GameScene.SceneDataState.StartEnd;
             }
-            get => _state;
+
+            // do Start..
+            SceneLoader.Instance.LoadScene(sceneName: SceneNames.UIScene, loadType: LoadSceneMode.Additive, onComplete: SceneLoadEnd);
         }
 
-        private event GameScene.GameSceneDataHandler _eventHandler;
-        public event GameScene.GameSceneDataHandler GameSceneDataHandler
+        public override void LoadUI()
         {
-            add => _eventHandler += value;
-            remove => _eventHandler -= value;
+            // 캔버스 매니저 같은거라도 만들까.
         }
 
-        public void Dispose()
+        public override void OnFinish()
+        {            // Do Finish..
+            _state = GameScene.SceneDataState.Finish;
+
+            _state = GameScene.SceneDataState.FinishEnd;
+        }
+
+        public override void OnUpdate(float dt)
         {
-            
         }
-
-        public void Start()
-        {
-
-        }
-
-        public void UILoad()
-        {
-
-        }
-
-        public void Finish()
-        {
-
-        }
-
-        public void Update(float fDelta)
-        {
-
-        }
-
-        //public void Start()
-        //{
-        //    void SceneLoadEnd()
-        //    {
-        //        UILoad();
-        //    }
-
-        //    // do Start..
-        //    {
-        //        SceneLoader.Instance.LoadScene(sceneName: SceneNames.UIScene, loadType: LoadSceneMode.Additive, onComplete: SceneLoadEnd);
-        //    }
-        //    State = GameScene.SceneDataState.Start;
-        //}
-
-        //public void UILoad()
-        //{
-        //    // Do UILoad..
-        //    {
-        //        // 흐....음........ 
-        //        var tempRoot = GameObject.Find("UISceneManager");
-        //        // 이걸 여기서 이렇게 해야 할까?
-        //    }
-        //    State = GameScene.SceneDataState.UILoad;
-        //}
-
-        //public void Finish()
-        //{
-        //    // Do Finish..
-        //    {
-
-        //    }
-        //    State = GameScene.SceneDataState.Finish;
-        //}
     }
 }

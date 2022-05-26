@@ -1,21 +1,28 @@
-﻿using CJR.GameScene;
+﻿using UnityEditor.SceneManagement;
 
 namespace CJR.GameManager
 {
-    using Scene;
+    using GameScene;
 
     public class GameManager : MonobehaviourSingleton<GameManager>
     {
-        private readonly GameSceneManager _gameSceneManager = new();
+        private  GameSceneManager _gameSceneManager;
+
+        public SceneBase Lobby;
+        public SceneBase Main;
 
         void Awake()
         {
+            _gameSceneManager = gameObject.AddComponent<GameSceneManager>();
             AddLobbyScene();
         }
 
         public void AddLobbyScene()
         {
-            _gameSceneManager.StartScene(GameScene.GameScene.SceneType.Lobby);
+            if (_gameSceneManager != null)
+            {
+                _gameSceneManager.StartScene(Lobby, GameScene.SceneType.Lobby);
+            }
             //SceneLoader.LoadScene(sceneName: SceneNames.UIScene, loadType: LoadSceneMode.Additive, onComplete: AddSceneComplete);
         }
 

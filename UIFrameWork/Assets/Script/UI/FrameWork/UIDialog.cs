@@ -124,8 +124,6 @@ namespace CJR.UI
             UIManager.OnDestroy(this);
         }
 
-        #region IPoolObj
-
         public string Key;
         public Action<string, UIDialog> OnReturn { set; get; }
         public void Return()
@@ -133,6 +131,5 @@ namespace CJR.UI
             // object pool에 반환한다.
             OnReturn?.Invoke(Key, this);
         }
-        #endregion
     }
 }
