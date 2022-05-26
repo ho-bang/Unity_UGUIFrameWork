@@ -1,4 +1,4 @@
-\namespace CJR.GameScene
+namespace CJR.GameScene
 {
     public class GameScene
     {
@@ -11,8 +11,9 @@
         public enum SceneDataState
         {
             Start,
-            UILoad,
-            Finish
+            StartEnd,
+            Finish,
+            FinishEnd,
         }
 
         public class SceneDataArgs

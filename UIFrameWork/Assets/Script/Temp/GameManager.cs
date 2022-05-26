@@ -1,14 +1,12 @@
-﻿using UnityEngine.SceneManagement;
+﻿using CJR.GameScene;
 
 namespace CJR.GameManager
 {
     using Scene;
-    using GameScene;
 
     public class GameManager : MonobehaviourSingleton<GameManager>
     {
-        public SceneLoader SceneLoader { get; } = new SceneLoader();
-        public GameSceneManager GameSceneManager { get; } = new GameSceneManager();
+        private readonly GameSceneManager _gameSceneManager = new();
 
         void Awake()
         {
@@ -17,12 +15,13 @@ namespace CJR.GameManager
 
         public void AddLobbyScene()
         {
-            SceneLoader.LoadScene(sceneName: SceneNames.UIScene, loadType: LoadSceneMode.Additive, onComplete: AddSceneComplete);
+            _gameSceneManager.StartScene(GameScene.GameScene.SceneType.Lobby);
+            //SceneLoader.LoadScene(sceneName: SceneNames.UIScene, loadType: LoadSceneMode.Additive, onComplete: AddSceneComplete);
         }
 
         public void AddGameScene()
         {
-            SceneLoader.LoadScene(sceneName: SceneNames.GameScene, loadType: LoadSceneMode.Additive, onComplete: AddSceneComplete);
+            //SceneLoader.Instance.LoadScene(sceneName: SceneNames.GameScene, loadType: LoadSceneMode.Additive, onComplete: AddSceneComplete);
         }
 
         private void AddSceneComplete()

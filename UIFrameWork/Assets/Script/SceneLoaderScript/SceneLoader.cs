@@ -12,7 +12,7 @@ namespace CJR.Scene
     }
 
     //scene load는 기본적으로 비동기 로딩을 원칙으로 한다.
-    public class SceneLoader
+    public class SceneLoader : MonobehaviourSingleton<SceneLoader>
     {
         public IReadOnlyList<string> ReadOnlyOpenedScenes => _openedScenes;
         private readonly List<string> _openedScenes = new();

@@ -75,7 +75,7 @@ public class TestGUI : MonoBehaviour
             GUILayout.Label("Scene List", style);
             
             _sb.Clear();
-            foreach (var cs in GameManager.Instance.SceneLoader.ReadOnlyOpenedScenes)
+            foreach (var cs in SceneLoader.Instance.ReadOnlyOpenedScenes)
             {
                 _sb.Append(cs).AppendLine();
             }
@@ -83,20 +83,20 @@ public class TestGUI : MonoBehaviour
 
             using (var scrollViewScope = new GUILayout.ScrollViewScope(scrollPosition, GUILayout.Width(500), GUILayout.Height(100)))
             {
-                foreach (var secneName in SceneNames)
+                foreach (var sceneName in SceneNames)
                 {
                     GUILayout.BeginHorizontal();
                     {
-                        if (GUILayout.Button( $"¾À Ãß°¡ => [ {secneName} ]"))
+                        if (GUILayout.Button( $"¾À Ãß°¡ => [ {sceneName} ]"))
                         {
-                            GameManager.Instance.SceneLoader.LoadScene(sceneName: secneName, loadType: LoadSceneMode.Additive, onComplete: null);
+                            SceneLoader.Instance.LoadScene(sceneName: sceneName, loadType: LoadSceneMode.Additive, onComplete: null);
                         }
 
-                        if (GUILayout.Button(text: $"¾ð·Îµå ÈÄ ¾À ·Îµå => [ {secneName} ]"))
+                        if (GUILayout.Button(text: $"¾ð·Îµå ÈÄ ¾À ·Îµå => [ {sceneName} ]"))
                         {
-                            GameManager.Instance.SceneLoader.UnloadAllOpenedScene(onComplete: () =>
+                            SceneLoader.Instance.UnloadAllOpenedScene(onComplete: () =>
                             {
-                                GameManager.Instance.SceneLoader.LoadScene(sceneName: secneName, loadType: LoadSceneMode.Additive, onComplete: null);
+                                SceneLoader.Instance.LoadScene(sceneName: sceneName, loadType: LoadSceneMode.Additive, onComplete: null);
                             });
                         }
                     }

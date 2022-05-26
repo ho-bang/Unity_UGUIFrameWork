@@ -1,5 +1,9 @@
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
 namespace CJR.GameScene
 {
+    using Scene;
     public class LobbyScene : IScene
     {
         private GameScene.SceneDataState _state;
@@ -27,34 +31,56 @@ namespace CJR.GameScene
 
         public void Start()
         {
-            // do start..
-            {
 
-            }
-            State = GameScene.SceneDataState.Start;
         }
 
         public void UILoad()
         {
-            // do UILoad..
-            {
 
-            }
-            State = GameScene.SceneDataState.Start;
         }
 
-        public void End()
-        {
-            // do End..
-            {
-
-            }
-            State = GameScene.SceneDataState.Start;
-        }
-
-        public void Update()
+        public void Finish()
         {
 
         }
+
+        public void Update(float fDelta)
+        {
+
+        }
+
+        //public void Start()
+        //{
+        //    void SceneLoadEnd()
+        //    {
+        //        UILoad();
+        //    }
+
+        //    // do Start..
+        //    {
+        //        SceneLoader.Instance.LoadScene(sceneName: SceneNames.UIScene, loadType: LoadSceneMode.Additive, onComplete: SceneLoadEnd);
+        //    }
+        //    State = GameScene.SceneDataState.Start;
+        //}
+
+        //public void UILoad()
+        //{
+        //    // Do UILoad..
+        //    {
+        //        // 흐....음........ 
+        //        var tempRoot = GameObject.Find("UISceneManager");
+        //        // 이걸 여기서 이렇게 해야 할까?
+        //    }
+        //    State = GameScene.SceneDataState.UILoad;
+        //}
+
+        //public void Finish()
+        //{
+        //    // Do Finish..
+        //    {
+
+        //    }
+        //    State = GameScene.SceneDataState.Finish;
+        //}
     }
 }

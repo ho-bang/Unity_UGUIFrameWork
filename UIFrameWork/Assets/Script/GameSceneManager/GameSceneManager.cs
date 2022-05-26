@@ -1,4 +1,3 @@
-
 using System;
 using UnityEngine;
 
@@ -12,7 +11,8 @@ namespace CJR.GameScene
         {
             if (_currentScene != null)
             {
-                // DisposeCurrentScene();
+                // 씬이 아직 뭔가 하고 있는 중이라면?
+                DisposeCurrentScene();
             }
 
             switch (scene)
@@ -34,8 +34,7 @@ namespace CJR.GameScene
             switch (args.State)
             {
                 case GameScene.SceneDataState.Start:
-                    break;
-                case GameScene.SceneDataState.UILoad:
+                    _currentScene.UILoad();
                     break;
                 case GameScene.SceneDataState.Finish:
                     DisposeCurrentScene();

@@ -3,7 +3,7 @@ using System;
 namespace CJR.GameScene
 {
     /// <summary>
-    /// Start -> UIload -> End ~~ ...
+    /// Start -> UIload -> Finish ~~ ...
     /// </summary>
 
     public interface IScene : IDisposable
@@ -12,7 +12,7 @@ namespace CJR.GameScene
         GameScene.SceneDataState State { get; }
         void Start();
         void UILoad();
-        void End();
+        void Finish();
         void Update();
     }
 }
