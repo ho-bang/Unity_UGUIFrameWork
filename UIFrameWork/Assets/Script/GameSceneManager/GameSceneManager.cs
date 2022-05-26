@@ -4,114 +4,29 @@ using UnityEngine;
 
 namespace CJR.GameScene
 {
-    public class GameScene
-    {
-        public enum SceneType
-        {
-            Lobby,
-            Game
-        }
-
-
-        public enum SceneDataState
-        {
-            Start,
-            UILoad,
-            Finish
-        }
-
-        public class SceneDataArgs
-        {
-            public SceneDataArgs(SceneDataState state)
-            {
-                State = state;
-            }
-
-            public SceneDataState State { private set; get; }
-        }
-
-        public delegate void GameSceneDataHandler(object sceneData, SceneDataArgs args);
-    }
-
-    public interface IScene
-    {
-        event GameScene.GameSceneDataHandler GameSceneDataHandler;
-        GameScene.SceneDataState State { get; }
-        void Start();
-        void UILoading();
-        void End();
-        void Update();
-    }
-
-    public class SceneData : IScene
-    {
-        private GameScene.SceneDataState _state;
-        public GameScene.SceneDataState State
-        {
-            private set
-            {
-                _state = value;
-                _eventHandler?.Invoke(this, new GameScene.SceneDataArgs(_state));
-            }
-            get => _state;
-        }
-
-        private event GameScene.GameSceneDataHandler _eventHandler;
-        public event GameScene.GameSceneDataHandler GameSceneDataHandler
-        {
-            add => _eventHandler += value;
-            remove => _eventHandler -= value;
-        }
-
-        public void Start()
-        {
-            // do start..
-            {
-
-            }
-            State = GameScene.SceneDataState.Start;
-        }
-
-        public void UILoading()
-        {
-            // do UILoad..
-            {
-
-            }
-            State = GameScene.SceneDataState.Start;
-        }
-
-        public void End()
-        {
-            // do End..
-            {
-
-            }
-            State = GameScene.SceneDataState.Start;
-        }
-
-        public void Update()
-        {
-
-        }
-    }
-
     public class GameSceneManager : MonoBehaviour
     {
-        
         private IScene _currentScene;
 
         public void StartScene(GameScene.SceneType scene)
         {
+            if (_currentScene != null)
+            {
+                // DisposeCurrentScene();
+            }
+
             switch (scene)
             {
                 case GameScene.SceneType.Lobby:
-                    _currentScene = new SceneData();
+                    _currentScene = new LobbyScene();
                     _currentScene.GameSceneDataHandler += OnChangedCurrentSceneData;
+                    _currentScene.Start();
                     break;
                 case GameScene.SceneType.Game:
                     break;
             }
+
+            _currentScene?.Start();
         }
 
         public void OnChangedCurrentSceneData(object sender, GameScene.SceneDataArgs args)
@@ -120,11 +35,20 @@ namespace CJR.GameScene
             {
                 case GameScene.SceneDataState.Start:
                     break;
+                case GameScene.SceneDataState.UILoad:
+                    break;
                 case GameScene.SceneDataState.Finish:
+                    DisposeCurrentScene();
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+        }
+
+        public void DisposeCurrentScene()
+        {
+            _currentScene.Dispose();
+            _currentScene = null;
         }
 
         void Update()

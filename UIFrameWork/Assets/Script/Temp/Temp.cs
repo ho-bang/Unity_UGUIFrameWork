@@ -1,7 +1,7 @@
 using CJR.UI;
 using UnityEngine;
 
-public class UISceneManager : MonoBehaviour
+public class Temp : MonoBehaviour
 {
     public Canvas canvas;
 

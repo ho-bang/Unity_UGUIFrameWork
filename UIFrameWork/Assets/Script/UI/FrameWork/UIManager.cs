@@ -11,7 +11,7 @@ namespace CJR.UI
         public static IReadOnlyList<UIDialog> OpenedList => _openList;
         public static UIDialog Open(GameObject parent, string name)
         {
-            var element = UIResourceManager.Instance?.GetDialogInstance(name, onComplete: null);
+            var element = UIInstanceManager.Instance?.GetDialogInstance(name, onComplete: null);
             if (element == null)
             {
                 return null;
@@ -39,7 +39,7 @@ namespace CJR.UI
 
             ui.Close();
             ui.Return();
-            UIResourceManager.Instance?.ReturnInstance(ui);
+            UIInstanceManager.Instance?.ReturnInstance(ui);
             
             _openList.Remove(ui);
             return true;
@@ -62,13 +62,13 @@ namespace CJR.UI
             closeTarget.Close();
             _openList.Remove(closeTarget);
 
-            UIResourceManager.Instance?.ReturnInstance(closeTarget);
+            UIInstanceManager.Instance?.ReturnInstance(closeTarget);
         }
 
         public static void OnDestroy(UIDialog uiDialog)
         {
             // fake null
-            UIResourceManager.Instance?.RemoveInstance(uiDialog);
+            UIInstanceManager.Instance?.RemoveInstance(uiDialog);
 
             if (_openList.Count == 0)
             {

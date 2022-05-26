@@ -5,8 +5,11 @@ namespace CJR.Resource
 {
     using UI;
     
-    public class UIResourceManager : MonobehaviourSingleton<UIResourceManager>
+    public class UIInstanceManager : MonobehaviourSingleton<UIInstanceManager>
     {
+        // 나중에 이런 식으로도 사용이 가능하다.
+        private readonly IObjectLoader<Texture> _uiTextureManager = new ObjectLoader<Texture>(null, null); 
+
         private readonly IObjectLoader<UIDialog> _uiDialogObjectLoader = new ObjectLoader<UIDialog>(
             resourcePoolFactory: () => new ObjectPool<UIDialog>(),
             poolObjectFactory: (key, action) =>
