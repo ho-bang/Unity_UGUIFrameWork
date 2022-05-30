@@ -28,7 +28,6 @@ public class UIDialog_Lobby : UIDialog
             case MessageType.Type.ClickTab when type is UIMessage_EnterGameScene ClickTempSlot:
                 Debug.Log($"message Type : {ClickTempSlot.Type} _ {this.name}");
                 UIManager.Close(this);
-                GameManager.Instance.AddGameScene();
                 break;
         }
     }

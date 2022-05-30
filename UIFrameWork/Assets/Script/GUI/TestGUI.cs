@@ -3,7 +3,6 @@ using System.IO;
 using System.Text;
 using CJR.Scene;
 using CJR.UI;
-using CJR.GameManager;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;

@@ -32,6 +32,8 @@ namespace CJR.Resource
                 return null;
             }
 
+            onComplete?.Invoke();
+
             return iPoolObject;
         }
 

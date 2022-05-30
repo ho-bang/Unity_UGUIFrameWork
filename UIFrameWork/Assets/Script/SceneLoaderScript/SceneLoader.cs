@@ -42,10 +42,17 @@ namespace CJR.Scene
 
             void LoadComplete(AsyncOperation asyncOperation)
             {
-                _loadingScene.Remove(sceneName);
-                _openedScenes.Add(sceneName);
-                onComplete?.Invoke();
-                Debug.Log($"load complete _ {sceneName}");
+                if (asyncOperation.isDone)
+                {
+                    _loadingScene.Remove(sceneName);
+                    _openedScenes.Add(sceneName);
+                    onComplete?.Invoke();
+                    Debug.Log($"load complete _ {sceneName}");
+                }
+                else
+                {
+                    Debug.LogError($"load complete fail _ {sceneName}");
+                }
             }
 
             _loadingScene.Add(sceneName);
@@ -95,6 +102,37 @@ namespace CJR.Scene
             {
                 UnloadScene(openedScene, UnloadAllComplete);
             }
+        }
+
+        public GameObject FindGobFromScene(string sceneName, string gameObjName)
+        {
+            for (var i = 0; i < SceneManager.sceneCount; i++)
+            {
+                var scene = SceneManager.GetSceneAt(i);
+                if (scene.name != sceneName)
+                {
+                    continue;
+                }
+
+                var objs = scene.GetRootGameObjects();
+                foreach (var obj in objs)
+                {
+                    if (obj.transform.name == gameObjName)
+                    {
+                        return obj.transform.gameObject;
+                    }
+
+                    var target = obj.transform.Find(gameObjName);
+                    if (target == null)
+                    {
+                        continue;
+                    }
+
+                    return target.gameObject;
+                }
+            }
+
+            return null;
         }
     }
 }

@@ -13,8 +13,11 @@ namespace CJR.GameScene
             None,
             Start,
             StartEnd,
+            UILoad,
+            UILoadFinish,
             Finish,
             FinishEnd,
+            CleanUp
         }
 
         public class SceneDataArgs

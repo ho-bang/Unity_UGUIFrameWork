@@ -44,8 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02a0d70cba49c96438d2c428b7352f36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UiCanvas: {fileID: 0}
-  <UIList>k__BackingField:
-  - {fileID: 0}
-  <UIResourcePath>k__BackingField: []
+  <UIListToLoadOnStart>k__BackingField:
+  - {fileID: 7811449153437029651, guid: c22b0ada4e7981a45af2e2e293448b3c, type: 3}
+  <UIPathArrToLoadOnStart>k__BackingField:
+  - UI/Lobby/TempLobby
   _sceneType: 0

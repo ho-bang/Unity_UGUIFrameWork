@@ -1,6 +1,4 @@
-﻿using UnityEditor.SceneManagement;
-
-namespace CJR.GameManager
+﻿namespace CJR.GameManager
 {
     using GameScene;
 
@@ -14,26 +12,11 @@ namespace CJR.GameManager
         void Awake()
         {
             _gameSceneManager = gameObject.AddComponent<GameSceneManager>();
-            AddLobbyScene();
-        }
-
-        public void AddLobbyScene()
-        {
             if (_gameSceneManager != null)
             {
-                _gameSceneManager.StartScene(Lobby, GameScene.SceneType.Lobby);
+                var lobby = Instantiate(Lobby);
+                _gameSceneManager.StartScene(lobby);
             }
-            //SceneLoader.LoadScene(sceneName: SceneNames.UIScene, loadType: LoadSceneMode.Additive, onComplete: AddSceneComplete);
-        }
-
-        public void AddGameScene()
-        {
-            //SceneLoader.Instance.LoadScene(sceneName: SceneNames.GameScene, loadType: LoadSceneMode.Additive, onComplete: AddSceneComplete);
-        }
-
-        private void AddSceneComplete()
-        {
-
         }
     }
 }

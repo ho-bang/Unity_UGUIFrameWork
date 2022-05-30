@@ -1,10 +1,13 @@
+using System;
+using System.IO;
+using System.Management;
 using UnityEngine;
 
 namespace CJR.GameScene.Editor
 {
     using UnityEditor;
 
-    [CustomEditor(typeof(SceneBase))]
+    [CustomEditor(typeof(SceneBase), true)]
     public class SceneBaseEditor : Editor
     {
         private SceneBase _sceneBase; 
@@ -13,31 +16,97 @@ namespace CJR.GameScene.Editor
             _sceneBase = (SceneBase)target;
         }
 
+        void OnDisable()
+        {
+            _sceneBase = null;
+        }
+
         public override void OnInspectorGUI()
         {
             base.OnInspectorGUI();
 
             if (_sceneBase == null)
             {
+                Debug.Log("scene base is null");
                 return;
             }
-            else
+
+            SetAssetPath();
+            ShowPrefabPathTextList();
+
+            if (GUI.changed)
             {
-                Debug.Log("test");
+                EditorUtility.SetDirty(target);
+            }
+        }
+
+        private bool _fold;
+        private void ShowPrefabPathTextList()
+        {
+            var style = new GUIStyle(GUI.skin.box);
+            var style1 = new GUIStyle(GUI.skin.textArea)
+            {
+                alignment = TextAnchor.MiddleCenter
+            };
+            var style2 = new GUIStyle(GUI.skin.button);
+            _fold = EditorGUILayout.Foldout(_fold, $"{nameof(_sceneBase.UIPathArrToLoadOnStart)}");
+            EditorGUILayout.BeginVertical(style);
+            if (_fold)
+            {
+                for (var index = 0; index < _sceneBase.UIPathArrToLoadOnStart.Length; index++)
+                {
+                    var str = _sceneBase.UIPathArrToLoadOnStart[index];
+                    var uiDialog = _sceneBase.UIListToLoadOnStart[index];
+                    if (uiDialog == null)
+                    {
+                        EditorGUILayout.LabelField("Empty");
+                    }
+                    else
+                    {
+                        EditorGUILayout.BeginHorizontal();
+                        EditorGUILayout.LabelField($" Element {index} Path", style2, GUILayout.Width(150), GUILayout.Height(20));
+                        EditorGUILayout.LabelField($"[ {str} ]", style1, GUILayout.Height(20));
+                        GUILayout.FlexibleSpace();
+                        EditorGUILayout.EndHorizontal();
+                    }
+                }
+            }
+            EditorGUILayout.EndVertical();
+        }
+
+        const string removePath = "Assets/Resources/";
+        private void SetAssetPath()
+        {
+            var save = false;
+
+            if (_sceneBase.UIPathArrToLoadOnStart == null || (_sceneBase.UIPathArrToLoadOnStart.Length != _sceneBase.UIListToLoadOnStart.Count))
+            {
+                _sceneBase.UIPathArrToLoadOnStart = new string[_sceneBase.UIListToLoadOnStart.Count];
+                save = true;
             }
 
-            var sceneBase = (SceneBase)target;
-            for (var index = 0; index < _sceneBase.UIList.Length; index++)
+
+            for (var index = 0; index < _sceneBase.UIListToLoadOnStart.Count; index++)
             {
-                var uiPrefab = _sceneBase.UIList[index];
+                var uiPrefab = _sceneBase.UIListToLoadOnStart[index];
                 if (uiPrefab == null)
                 {
-                    _sceneBase.UIResourcePath[index] = string.Empty;
+                    _sceneBase.UIPathArrToLoadOnStart[index] = string.Empty;
                     continue;
                 }
 
                 var path = AssetDatabase.GetAssetPath(uiPrefab);
-                _sceneBase.UIResourcePath[index] = path;
+                path = Path.ChangeExtension(path.Replace(removePath, ""), extension: null);
+                if (_sceneBase.UIPathArrToLoadOnStart[index] != path)
+                {
+                    _sceneBase.UIPathArrToLoadOnStart[index] = path;
+                    save = true;
+                }
+            }
+
+            if (save)
+            {
+                serializedObject.ApplyModifiedProperties();
             }
         }
     }
