@@ -1,9 +1,8 @@
-﻿using CJR.GameManager;
-using CJR.UI;
+﻿using CJR.UI;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIDialog_Lobby : UIDialog
+public class UI_Lobby : CJRUIBase
 {
     public Button StartButton;
 

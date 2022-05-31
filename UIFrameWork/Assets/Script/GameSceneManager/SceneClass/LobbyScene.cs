@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 namespace CJR.GameScene
 {
     using Scene;
+
     public class LobbyScene : SceneBase
     {
         public override void Init()

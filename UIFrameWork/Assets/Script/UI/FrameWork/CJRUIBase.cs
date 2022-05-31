@@ -6,13 +6,13 @@ namespace CJR.UI
 {
     using GameScene;
 
-    public class UIDialog : MonoBehaviour
+    public class CJRUIBase : MonoBehaviour
     {
         public GameScene.SceneType DialogSceneType { private set; get; }
 
         private GameObject Parent;
         // 굳이 이걸 두는 게 좋은 짓일까.. 
-        private readonly List<UIDialog> _childElement = new ();
+        private readonly List<CJRUIBase> _childElement = new ();
         private RectTransform _myRectTransform;
         private bool _active;
 
@@ -35,7 +35,7 @@ namespace CJR.UI
 
             if (Parent is not null)
             {
-                var parentDialog = Parent.GetComponent<UIDialog>();
+                var parentDialog = Parent.GetComponent<CJRUIBase>();
                 if (parentDialog is not null)
                 {
                     parentDialog.RemoveChild(this);
@@ -50,7 +50,7 @@ namespace CJR.UI
             else
             {
                 Parent = parent;
-                var parentUI = Parent.GetComponent<UIDialog>();
+                var parentUI = Parent.GetComponent<CJRUIBase>();
                 if (parentUI is not null)
                 {
                     parentUI.AddChild(this);
@@ -65,7 +65,7 @@ namespace CJR.UI
             DialogSceneType = sceneType;
         }
 
-        public void AddChild(UIDialog dialog)
+        public void AddChild(CJRUIBase dialog)
         {
             if (dialog is null)
             {
@@ -82,7 +82,7 @@ namespace CJR.UI
             _childElement.Add(dialog);
         }
 
-        public void RemoveChild(UIDialog dialog)
+        public void RemoveChild(CJRUIBase dialog)
         {
             if (dialog is null)
             {
@@ -134,7 +134,7 @@ namespace CJR.UI
         }
 
         public string Key;
-        public Action<string, UIDialog> OnReturn { set; get; }
+        public Action<string, CJRUIBase> OnReturn { set; get; }
         public void Return()
         {
             // object pool에 반환한다.

@@ -8,9 +8,9 @@ namespace CJR.UI
     
     public static class UIManager
     {
-        private static readonly List<UIDialog> _openList = new();
-        public static IReadOnlyList<UIDialog> OpenedList => _openList;
-        public static UIDialog Open(GameObject parent, GameScene.SceneType sceneType, string name)
+        private static readonly List<CJRUIBase> _openList = new();
+        public static IReadOnlyList<CJRUIBase> OpenedList => _openList;
+        public static CJRUIBase Open(GameObject parent, GameScene.SceneType sceneType, string name)
         {
             var ui = UIInstanceManager.Instance?.GetDialogInstance(name, onComplete: null);
             if (ui == null)
@@ -27,7 +27,7 @@ namespace CJR.UI
             return ui;
         }
 
-        public static bool Close(UIDialog ui)
+        public static bool Close(CJRUIBase ui)
         {
             if (_openList.Contains(ui) == false)
             {
@@ -67,16 +67,16 @@ namespace CJR.UI
             UIInstanceManager.Instance?.ReturnInstance(closeTarget);
         }
 
-        public static void OnDestroy(UIDialog uiDialog)
+        public static void OnDestroy(CJRUIBase ui)
         {
             // fake null
-            UIInstanceManager.Instance?.RemoveInstance(uiDialog);
+            UIInstanceManager.Instance?.RemoveInstance(ui);
 
             if (_openList.Count == 0)
             {
                 return;
             }
-            _openList.Remove(uiDialog);
+            _openList.Remove(ui);
         }
 
         public static void SendMessageToOpenList(IUIMessage message)
@@ -95,7 +95,7 @@ namespace CJR.UI
 
         public static void SendMessageToGobChild(IUIMessage message, GameObject game)
         {
-            var children = game.GetComponentsInChildren<UIDialog>(includeInactive: true);
+            var children = game.GetComponentsInChildren<CJRUIBase>(includeInactive: true);
             foreach (var uiDialog in children)
             {
                 if (uiDialog == null)

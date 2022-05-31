@@ -21,7 +21,7 @@ namespace CJR.GameScene
             }
         }
 
-        [field: SerializeField] public List<UIDialog> UIListToLoadOnStart { set; get; } = new ();
+        [field: SerializeField] public List<CJRUIBase> UIListToLoadOnStart { set; get; } = new ();
         [field: SerializeField, HideInInspector] public string[] UIPathArrToLoadOnStart { set; get; }
 
         public GameScene.SceneType SceneType { protected set; get; }
