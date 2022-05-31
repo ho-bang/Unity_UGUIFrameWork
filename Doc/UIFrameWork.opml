@@ -33,6 +33,17 @@
         </outline>
         <outline text="SceneManager">
           <outline text="Scene_element(?)" />
+          <outline text="씬에  씬프레임워크 프리팹(CJRFrameworkMain)을 추가한다." style="Subtitle" color="Blue">
+            <outline text="프리팹 인스펙터에서 추가하고자 하는 씬들을 +  해준다" />
+            <outline text="로고, 로그인, 로비, 게임, 결과" />
+            <outline text="씬으로 사용될 Empty GameObject 생성" />
+            <outline text="CJRSceneBase 프리팹을 추가한다" />
+            <outline text="씬 설정값들을 체크한다 ( async/force loading 등등 )" />
+            <outline text="배경음 항목에 배경음 설정" />
+            <outline text="사용할 UI 리스트에  CJRUIBase 기반 프리팹들 추가" />
+            <outline text="IDLE 상태에서 실행될 script component 추가" />
+            <outline text="제작한 씬베이스 프리팹을 아까 만들었던 씬프레임워크 프리팹에 각각 해당하는 씬에 지정" />
+          </outline>
         </outline>
       </outline>
     </outline>
@@ -130,6 +141,32 @@
         <outline text="SCEN_MANAGER">
           <outline text="Update()">
             <outline text="여기서 m_NKM_SCEN_NOW 통해서 현재 씬의 상태를 파악한다." />
+          </outline>
+        </outline>
+      </outline>
+      <outline text="에셋번들">
+        <outline text="패치파일은 어떻게 만들어지는 거죠?" color="Yellow">
+          <outline text="ProcessCreatePatchFile " style="Subtitle" color="Green" />
+          <outline text="여기서 패치 파일만든다. 해시도 여기서 만들 것 같은데?" />
+          <outline text="CreateNKCPatchInfo">
+            <outline text="NKCPatchInfo.AddFiles 할 대, 파일 인포도 만듬">
+              <outline text="여기서 basePath + file해서 full path 로 마는 후 그걸로 NKCPatchUtility.CalculateMD5() 사용해서 hash를 만든다." />
+              <outline text="얼라... 그럼 hash로 값 비교하는건 뭐지 어떤 파일 패치 받을까에성? 뭐임;">
+                <outline text="PatchFileInfo.FileUpdated 요걸로 패치 받을 녀석인지 판단한다." />
+                <outline text="여기서 hash가 동일하지 않은지 판단해" style="Completed">
+                  <outline text="아냐, CalculateMD5할 때 파일을 읽어들이잖아" />
+                </outline>
+                <outline text="뭐지 ㅋ 맨날 똑같은 게 아닌가?" style="Completed">
+                  <outline text="아니지, 경로로 파일을 읽어들이고 파일 자체로 hash를 구성하니까" />
+                </outline>
+              </outline>
+            </outline>
+          </outline>
+        </outline>
+        <outline text="암호화는 어떻게 처리 되는 거임?" color="Yellow">
+          <outline text="AssetBundleManager.GetMaskList" style="Subtitle" color="Green">
+            <outline text="여기에 파일 이름 기준으로 마스크 값을 만든다. 마스크 값은 md5 알고리즘으로 만들어진다. 마스크를 사용한 알고리즘은 다른 곳에서 사용된다." />
+            <outline text="마스크 리스트는 로직을 보면 한 번 꽈서 사용하고있다." />
           </outline>
         </outline>
       </outline>
