@@ -4,25 +4,27 @@ using UnityEngine;
 
 namespace CJR.UI
 {
-    // WINDOW 개념을 대체 할 수 있는 게 없을까.
+    using GameScene;
+    
     public static class UIManager
     {
         private static readonly List<UIDialog> _openList = new();
         public static IReadOnlyList<UIDialog> OpenedList => _openList;
-        public static UIDialog Open(GameObject parent, string name)
+        public static UIDialog Open(GameObject parent, GameScene.SceneType sceneType, string name)
         {
-            var element = UIInstanceManager.Instance?.GetDialogInstance(name, onComplete: null);
-            if (element == null)
+            var ui = UIInstanceManager.Instance?.GetDialogInstance(name, onComplete: null);
+            if (ui == null)
             {
                 return null;
             }
 
-            element.SetParent(parent);
-            element.Open();
-            element.SetAsLastSibling();
+            ui.SetParent(parent);
+            ui.SetSceneType(sceneType);
+            ui.Open();
+            ui.SetAsLastSibling();
 
-            _openList.Add(element);
-            return element;
+            _openList.Add(ui);
+            return ui;
         }
 
         public static bool Close(UIDialog ui)

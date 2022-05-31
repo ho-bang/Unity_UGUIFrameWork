@@ -1,16 +1,20 @@
-using System;
 using System.IO;
-using System.Management;
 using UnityEngine;
 
 namespace CJR.GameScene.Editor
 {
     using UnityEditor;
 
-    [CustomEditor(typeof(SceneBase), true)]
+    [CustomEditor(typeof(SceneBase), editorForChildClasses: true)]
     public class SceneBaseEditor : Editor
     {
-        private SceneBase _sceneBase; 
+        private SceneBase _sceneBase;
+
+        private bool _fold;
+        private readonly GUIStyle _boxGuiStyle   = new(GUI.skin.box);
+        private readonly GUIStyle _textAreaStyle = new(GUI.skin.textArea) { alignment = TextAnchor.MiddleCenter };
+        private readonly GUIStyle _buttonStyle   = new(GUI.skin.button);
+
         void OnEnable()
         {
             _sceneBase = (SceneBase)target;
@@ -40,17 +44,10 @@ namespace CJR.GameScene.Editor
             }
         }
 
-        private bool _fold;
         private void ShowPrefabPathTextList()
         {
-            var style = new GUIStyle(GUI.skin.box);
-            var style1 = new GUIStyle(GUI.skin.textArea)
-            {
-                alignment = TextAnchor.MiddleCenter
-            };
-            var style2 = new GUIStyle(GUI.skin.button);
             _fold = EditorGUILayout.Foldout(_fold, $"{nameof(_sceneBase.UIPathArrToLoadOnStart)}");
-            EditorGUILayout.BeginVertical(style);
+            EditorGUILayout.BeginVertical(_boxGuiStyle);
             if (_fold)
             {
                 for (var index = 0; index < _sceneBase.UIPathArrToLoadOnStart.Length; index++)
@@ -64,8 +61,8 @@ namespace CJR.GameScene.Editor
                     else
                     {
                         EditorGUILayout.BeginHorizontal();
-                        EditorGUILayout.LabelField($" Element {index} Path", style2, GUILayout.Width(150), GUILayout.Height(20));
-                        EditorGUILayout.LabelField($"[ {str} ]", style1, GUILayout.Height(20));
+                        EditorGUILayout.LabelField($" Element {index} Path", _buttonStyle, GUILayout.Width(150), GUILayout.Height(20));
+                        EditorGUILayout.LabelField($"[ {str} ]", _textAreaStyle, GUILayout.Height(20));
                         GUILayout.FlexibleSpace();
                         EditorGUILayout.EndHorizontal();
                     }
@@ -85,7 +82,6 @@ namespace CJR.GameScene.Editor
                 save = true;
             }
 
-
             for (var index = 0; index < _sceneBase.UIListToLoadOnStart.Count; index++)
             {
                 var uiPrefab = _sceneBase.UIListToLoadOnStart[index];
@@ -97,11 +93,13 @@ namespace CJR.GameScene.Editor
 
                 var path = AssetDatabase.GetAssetPath(uiPrefab);
                 path = Path.ChangeExtension(path.Replace(removePath, ""), extension: null);
-                if (_sceneBase.UIPathArrToLoadOnStart[index] != path)
+                if (_sceneBase.UIPathArrToLoadOnStart[index] == path)
                 {
-                    _sceneBase.UIPathArrToLoadOnStart[index] = path;
-                    save = true;
+                    continue;
                 }
+
+                _sceneBase.UIPathArrToLoadOnStart[index] = path;
+                save = true;
             }
 
             if (save)

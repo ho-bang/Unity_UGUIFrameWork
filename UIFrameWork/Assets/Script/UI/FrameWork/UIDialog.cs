@@ -4,8 +4,12 @@ using UnityEngine;
 
 namespace CJR.UI
 {
+    using GameScene;
+
     public class UIDialog : MonoBehaviour
     {
+        public GameScene.SceneType DialogSceneType { private set; get; }
+
         private GameObject Parent;
         // 굳이 이걸 두는 게 좋은 짓일까.. 
         private readonly List<UIDialog> _childElement = new ();
@@ -54,6 +58,11 @@ namespace CJR.UI
                 
                 _myRectTransform.SetParent(parent.transform, worldPositionStays: false);
             }
+        }
+
+        public void SetSceneType(GameScene.SceneType sceneType)
+        {
+            DialogSceneType = sceneType;
         }
 
         public void AddChild(UIDialog dialog)

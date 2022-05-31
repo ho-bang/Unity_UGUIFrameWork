@@ -5,7 +5,7 @@ namespace CJR.GameScene
 {
     public class GameSceneManager : MonoBehaviour
     {
-        // 대기열 처리가 필요할까?
+        // 대기열 처리가 필요할까? 혹은 여러 개의 씬이 들어올 수 있겠지?
         private SceneBase _currentScene;
 
         public void StartScene(SceneBase scene)
@@ -26,7 +26,7 @@ namespace CJR.GameScene
                 case GameScene.SceneType.Lobby:
                     _currentScene = scene;
                     break;
-                case GameScene.SceneType.Game:
+                case GameScene.SceneType.Main:
                     break;
             }
         }
@@ -44,7 +44,7 @@ namespace CJR.GameScene
                 return;
             }
 
-            if (_currentScene.SceneState == GameScene.SceneDataState.FinishEnd)
+            if (_currentScene.SceneState is GameScene.SceneDataState.Finish or GameScene.SceneDataState.CleanUp)
             {
                 return;
             }
@@ -59,16 +59,9 @@ namespace CJR.GameScene
                     break;
                 case GameScene.SceneDataState.Start:
                     break;
-                case GameScene.SceneDataState.StartEnd:
-                    _currentScene.LoadUI();
-                    break;
                 case GameScene.SceneDataState.UILoad:
                     break;
-                case GameScene.SceneDataState.UILoadFinish:
-                    break;
                 case GameScene.SceneDataState.Finish:
-                    break;
-                case GameScene.SceneDataState.FinishEnd:
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

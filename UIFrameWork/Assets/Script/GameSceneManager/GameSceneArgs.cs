@@ -4,19 +4,17 @@ namespace CJR.GameScene
     {
         public enum SceneType
         {
+            None,
             Lobby,
-            Game
+            Main
         }
 
         public enum SceneDataState
         {
             None,
             Start,
-            StartEnd,
             UILoad,
-            UILoadFinish,
             Finish,
-            FinishEnd,
             CleanUp
         }
 

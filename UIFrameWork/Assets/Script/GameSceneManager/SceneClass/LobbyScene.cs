@@ -7,32 +7,13 @@ namespace CJR.GameScene
     using Scene;
     public class LobbyScene : SceneBase
     {
-        private GameObject _canvasGob;
-        private GameObject _canvasGameObject
-        {
-            get
-            {
-                if (_canvasGob == null)
-                {
-                    _canvasGob = SceneLoader.Instance.FindGobFromScene(SceneNames.UIScene, "Canvas");
-                }
-
-                return _canvasGob;
-            }
-        }
-
-        public GameScene.SceneType _sceneType;
-        public override GameScene.SceneType SceneType => _sceneType; 
-        
-        private GameScene.SceneDataState _sceneState = GameScene.SceneDataState.None;
-        public override GameScene.SceneDataState SceneState => _sceneState;
-
         public override void Init()
         {
-            _sceneState = GameScene.SceneDataState.Start;
+            SceneState = GameScene.SceneDataState.Start;
+
             void SceneLoadEnd()
             {
-                _sceneState = GameScene.SceneDataState.StartEnd;
+                LoadUI();
             }
 
             SceneLoader.Instance.LoadScene(sceneName: SceneNames.UIScene, loadType: LoadSceneMode.Additive, onComplete: SceneLoadEnd);
@@ -40,7 +21,9 @@ namespace CJR.GameScene
 
         public override void LoadUI()
         {
-            if (_canvasGameObject == null)
+            SceneState = GameScene.SceneDataState.UILoad;
+
+            if (_uiCanvasGameObject == null)
             {
                 Debug.LogError($"Not found ui canvas game object");
                 return;
@@ -48,7 +31,7 @@ namespace CJR.GameScene
 
             if (UIPathArrToLoadOnStart == null)
             {
-                Debug.LogError($"UIPathArrToLoadOnStart is null");
+                Debug.LogError($"{nameof(UIPathArrToLoadOnStart)} is null");
                 return;
             }
 
@@ -59,19 +42,20 @@ namespace CJR.GameScene
                     continue;
                 }
 
-                UIManager.Open(_canvasGameObject, uiPath);
+                UIManager.Open(_uiCanvasGameObject, SceneType, uiPath);
             }
+
+            Finish();
         }
 
-        public override void OnFinish()
-        {           
-            _sceneState = GameScene.SceneDataState.Finish;
-            _sceneState = GameScene.SceneDataState.FinishEnd;
+        public override void Finish()
+        {
+            SceneState = GameScene.SceneDataState.Finish;
         }
 
         public override void CleanUp()
         {
-            _sceneState = GameScene.SceneDataState.CleanUp;
+            SceneState = GameScene.SceneDataState.CleanUp;
         }
 
         public override void OnUpdate(float dt)

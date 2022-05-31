@@ -50,15 +50,87 @@
             <outline text="버튼, 토글  등등 " />
             <outline text="기능을 컨트롤 하기 위한 유니티 컴포넌트를 래핑해 사용하기 좋도록 하자" />
           </outline>
+          <outline text="만들어야 할 것">
+            <outline text="메세지 처리" color="Yellow">
+              <outline text="UI들 끼리 종속성을 없애고, 내가 어떤 행동을 했는지 broadcast 하기 위해">
+                <outline text="전엔 이 방식을 활용했지만, 이게 맞는 걸까?" />
+                <outline text="Event로 등록해서 처리해야 하는 게 옳은 게 아닐까 싶다." />
+                <outline text="Event로 등록을 하게되면, Interface를 하나 추가해서 처리하면 될 듯? IUIEvent" />
+              </outline>
+              <outline text="이벤트 처리가 더 좋지 않을까?">
+                <outline text="IUIEvent" color="Green">
+                  <outline text="AddEvent" />
+                  <outline text="Type">
+                    <outline text="이벤트가 호출 되었을 때, Type으로 판단을 한다." />
+                  </outline>
+                  <outline text="&lt;T&gt;로 만들면 내가 캐스팅 하는 비용이 줄어들까?">
+                    <outline text="EX) ">
+                      <outline text="public Interface IUIEvent&lt;T&gt; : where UIDialog">
+                        <outline text="enum Type;" />
+                        <outline text="T  my" />
+                      </outline>
+                    </outline>
+                  </outline>
+                </outline>
+              </outline>
+            </outline>
+            <outline text="컴포넌트">
+              <outline text="탭">
+                <outline text="탭 같은 경우, " />
+              </outline>
+              <outline text="스크롤 뷰">
+                <outline text="슬롯들 재활용할 때 기능을 구현하려면 래핑해서 사용하는 게 좋을 듯" />
+              </outline>
+              <outline text="버튼">
+                <outline text="이건 굳이 해야 할 필요가 있을까 싶음 " />
+              </outline>
+              <outline text="이미지">
+                <outline text="Texture를 경로로 불러올 수 있도록 래핑하는" />
+              </outline>
+            </outline>
+          </outline>
         </outline>
-        <outline text="Scene">
-          <outline text="씬 같은 경우 비동기 로딩, 언로딩을 원칙으로 한다." />
-          <outline text="SceneManager" />
-          <outline text="SceneElement" />
+        <outline text="SceneLoader">
+          <outline text="만듬" />
+        </outline>
+        <outline text="SceneManager">
+          <outline text="유니티의 씬 개념이 아니라 음... 게임 로직에서 논리적인 판단으로 나눠둔 영역" />
+          <outline text="사실 이걸 왜 사용하는진 잘 모르겠는데.. 필요할 것 같기도 하고" />
         </outline>
         <outline text="Manager">
           <outline text="ResourceManager" />
           <outline text="원본 리소스를 불러와 놓고, 캐시해두고 불러오는 처리가 필요하다." />
+        </outline>
+      </outline>
+    </outline>
+    <outline text="NKC">
+      <outline text="Lua 좀 봐볼까?">
+        <outline text="NKMLua">
+          <outline text="Lua를 래핑해서 사용 하는 클래스" />
+          <outline text=".txt 파일을 불러와서 테이블을 읽어들인다.">
+            <outline text="문자열로 읽는 방식, 인덱스로 읽는 방식 두 개가 있다." />
+          </outline>
+          <outline text="KeraLua" style="Bold" color="Green">
+            <outline text="요 녀석을 사용하는데, 요건 왜 쓰는거지?" />
+          </outline>
+        </outline>
+      </outline>
+      <outline text="SCEN">
+        <outline text="뭐 정말 다양한 걸 한다. ">
+          <outline text="게임 오브젝트를 받아둬서 처리를 하기도 하고, Lua 데이터로 뭔가 지지고 복고 한다." />
+        </outline>
+        <outline text="NKC_SCEN_BASIC">
+          <outline text="Method">
+            <outline text="ScenChangeStart()" />
+            <outline text="ScenDataReqWaitUpdate()" />
+            <outline text="ScenLoadUIUpdate() .. " />
+            <outline text="씬의 시퀀스를 담당하고 씬의 상태를 알 수 있다." />
+          </outline>
+        </outline>
+        <outline text="SCEN_MANAGER">
+          <outline text="Update()">
+            <outline text="여기서 m_NKM_SCEN_NOW 통해서 현재 씬의 상태를 파악한다." />
+          </outline>
         </outline>
       </outline>
     </outline>
@@ -69,6 +141,11 @@
       </outline>
       <outline text="ChangeScene">
         <outline text="MainScene" />
+      </outline>
+    </outline>
+    <outline text="노드 줄 맞추기, 노드 하이퍼 링크">
+      <outline text="노드 줄 맞추기">
+        <outline text="해당 줄에 색상 일괄 처리 (?)" />
       </outline>
     </outline>
   </body>
