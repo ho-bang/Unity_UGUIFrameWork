@@ -85,7 +85,6 @@ namespace CJR.UI
             {
                 if (openedUI == null)
                 {
-                    // 여긴 ~~ 흠.. null 확률이 좀 있지
                     continue;
                 }
 

@@ -69,7 +69,7 @@ namespace CJR.UI
         {
             if (dialog is null)
             {
-                Debug.Log($"ui is null");
+                Debug.Log("ui is null");
                 return;
             }
 
