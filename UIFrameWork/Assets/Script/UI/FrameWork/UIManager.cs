@@ -12,7 +12,7 @@ namespace CJR.UI
         public static IReadOnlyList<CJRUIBase> OpenedList => _openList;
         public static CJRUIBase Open(GameObject parent, GameScene.SceneType sceneType, string name)
         {
-            var ui = UIInstanceManager.Instance?.GetDialogInstance(name, onComplete: null);
+            var ui = UIInstanceManager.Instance?.GetInstance(name, onComplete: null);
             if (ui == null)
             {
                 return null;
@@ -92,9 +92,24 @@ namespace CJR.UI
             }
         }
 
-        public static void SendMessageToGobChild(IUIMessage message, GameObject game)
+        public static void SendMessageToChild(IUIMessage message, GameObject go)
         {
-            var children = game.GetComponentsInChildren<CJRUIBase>(includeInactive: true);
+            var children = go.GetComponentsInChildren<CJRUIBase>(includeInactive: true);
+            foreach (var uiDialog in children)
+            {
+                if (uiDialog == null)
+                {
+                    // 여기는 차라리 null날 확률이 적다
+                    continue;
+                }
+
+                uiDialog.ReceiveMessage(message);
+            }
+        }
+
+        public static void SendMessageToParent(IUIMessage message, GameObject go)
+        {
+            var children = go.GetComponentsInParent<CJRUIBase>(includeInactive: true);
             foreach (var uiDialog in children)
             {
                 if (uiDialog == null)

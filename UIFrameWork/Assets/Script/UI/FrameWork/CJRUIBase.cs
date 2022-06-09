@@ -130,6 +130,7 @@ namespace CJR.UI
 
         void OnDestroy()
         {
+            // 직접 호출하지말고 콜백으로 하자
             UIManager.OnDestroy(this);
         }
 

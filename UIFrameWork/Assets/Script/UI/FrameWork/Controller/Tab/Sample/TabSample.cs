@@ -3,8 +3,7 @@ using UnityEngine.EventSystems;
 
 namespace CJR.UI
 {
-
-    public class TabSample : MonoBehaviour, ITabController<TabSample>
+    public class TabSample : CJRUIBase, ITabController<TabSample>
     {
         public ITabController<TabSample>.OnPointerClickHandler PointerClickHandler { get; set; }
 
