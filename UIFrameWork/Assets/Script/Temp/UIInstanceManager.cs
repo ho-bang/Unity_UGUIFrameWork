@@ -10,7 +10,7 @@ namespace CJR.Resource
         // 나중에 이런 식으로도 사용이 가능하다.
         private readonly IObjectLoader<Texture> _uiTextureManager = new ObjectLoader<Texture>(null, null); 
 
-        private readonly IObjectLoader<CJRUIBase> _uiDialogObjectLoader = new ObjectLoader<CJRUIBase>(
+        private readonly IObjectLoader<CJRUIBase> _uiInstanceLoader = new ObjectLoader<CJRUIBase>(
             resourcePoolFactory: () => new ObjectPool<CJRUIBase>(),
             poolObjectFactory: (key, action) =>
             {
@@ -34,21 +34,21 @@ namespace CJR.Resource
                 return element;
             });
 
-        public CJRUIBase GetDialogInstance(string name, Action onComplete)
+        public CJRUIBase GetInstance(string name, Action onComplete)
         {
-            return _uiDialogObjectLoader.Get(name, onComplete);
+            return _uiInstanceLoader.Get(name, onComplete);
         }
 
         public void ReturnInstance(CJRUIBase dialog)
         {
             dialog.SetParent(Instance.gameObject);
 
-            _uiDialogObjectLoader.Return(dialog.Key, dialog);
+            _uiInstanceLoader.Return(dialog.Key, dialog);
         }
 
         public void RemoveInstance(CJRUIBase dialog)
         {
-            _uiDialogObjectLoader.Remove(dialog.Key, dialog);
+            _uiInstanceLoader.Remove(dialog.Key, dialog);
         }
     }
 }
