@@ -1,32 +1,22 @@
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace CJR.UI
 {
     public class TabsSample : MonoBehaviour
     {
+        // grid 처리가 알아서 필요하긴 하겠지?
+        private List<TabSample> _tabs;
 
-        // 메세지로 했을 경우 좋은 방식이 뭐냐? 
-            // 종속성을 없앨 수 잇다.
-            // 비교적, 여러 UI들이 수신할 수 있다.
-            // 단점
-                // 미친놈 처럼 주화입마에 빠져서 복잡해 질 수 있다.
-        
-        // 요런 컴포넌트 방식으로 하면 좋은 점이 뭐냐?
-            // 코드가 간단하다.
-            // 복붙 복붙..
-            // 요런 걸 극복하려면, 컴포넌트화 시켜주면 된다.
+        public GridLayoutGroup _gridLayoutGroup;
 
 
         public void Awake()
         {
-            var tabSamples = GetComponents<TabSample>();
-            if (tabSamples == null)
-            {
-                Debug.LogError("tab sample error");
-                return;
-            }
-
-            foreach (var tabSample in tabSamples)
+            _tabs = new List<TabSample>(GetComponents<TabSample>());
+            
+            foreach (var tabSample in _tabs)
             {
                 tabSample.RegisterOnPointClick(OnClickTab);
             }

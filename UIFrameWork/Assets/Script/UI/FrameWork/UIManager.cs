@@ -107,7 +107,7 @@ namespace CJR.UI
             }
         }
 
-        public static void SendMessageToParent(IUIMessage message, GameObject go)
+        public static void SendMessageToParents(IUIMessage message, GameObject go)
         {
             var children = go.GetComponentsInParent<CJRUIBase>(includeInactive: true);
             foreach (var uiDialog in children)

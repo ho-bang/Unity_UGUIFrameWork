@@ -86,7 +86,7 @@ namespace CJR.UI
         {
             if (dialog is null)
             {
-                Debug.Log($"ui is null");
+                Debug.Log("ui is null");
                 return;
             }
 
@@ -134,7 +134,7 @@ namespace CJR.UI
             UIManager.OnDestroy(this);
         }
 
-        public string Key;
+        public string Key { set; get; }
         public Action<string, CJRUIBase> OnReturn { set; get; }
         public void Return()
         {

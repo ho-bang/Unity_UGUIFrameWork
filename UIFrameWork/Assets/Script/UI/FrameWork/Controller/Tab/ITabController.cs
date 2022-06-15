@@ -10,5 +10,7 @@ namespace CJR.UI
         OnPointerClickHandler PointerClickHandler { get; set; }
 
         void RegisterOnPointClick(OnPointerClickHandler handler);
+
+        void OnSelected(bool select);
     }
 }

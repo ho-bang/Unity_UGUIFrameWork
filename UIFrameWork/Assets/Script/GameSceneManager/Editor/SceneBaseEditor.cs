@@ -9,11 +9,8 @@ namespace CJR.GameScene.Editor
     public class SceneBaseEditor : Editor
     {
         private SceneBase _sceneBase;
-
         private bool _fold;
-        private readonly GUIStyle _boxGuiStyle   = new(GUI.skin.box);
-        private readonly GUIStyle _textAreaStyle = new(GUI.skin.textArea) { alignment = TextAnchor.MiddleCenter };
-        private readonly GUIStyle _buttonStyle   = new(GUI.skin.button);
+        private bool _save;
 
         void OnEnable()
         {
@@ -42,33 +39,6 @@ namespace CJR.GameScene.Editor
             {
                 EditorUtility.SetDirty(target);
             }
-        }
-
-        private void ShowPrefabPathTextList()
-        {
-            _fold = EditorGUILayout.Foldout(_fold, $"{nameof(_sceneBase.UIPathArrToLoadOnStart)}");
-            EditorGUILayout.BeginVertical(_boxGuiStyle);
-            if (_fold)
-            {
-                for (var index = 0; index < _sceneBase.UIPathArrToLoadOnStart.Length; index++)
-                {
-                    var str = _sceneBase.UIPathArrToLoadOnStart[index];
-                    var uiDialog = _sceneBase.UIListToLoadOnStart[index];
-                    if (uiDialog == null)
-                    {
-                        EditorGUILayout.LabelField("Empty");
-                    }
-                    else
-                    {
-                        EditorGUILayout.BeginHorizontal();
-                        EditorGUILayout.LabelField($" Element {index} Path", _buttonStyle, GUILayout.Width(150), GUILayout.Height(20));
-                        EditorGUILayout.LabelField($"[ {str} ]", _textAreaStyle, GUILayout.Height(20));
-                        GUILayout.FlexibleSpace();
-                        EditorGUILayout.EndHorizontal();
-                    }
-                }
-            }
-            EditorGUILayout.EndVertical();
         }
 
         const string removePath = "Assets/Resources/";
@@ -107,5 +77,33 @@ namespace CJR.GameScene.Editor
                 serializedObject.ApplyModifiedProperties();
             }
         }
+
+        private void ShowPrefabPathTextList()
+        {
+            _fold = EditorGUILayout.Foldout(_fold, $"{nameof(_sceneBase.UIPathArrToLoadOnStart)}");
+            EditorGUILayout.BeginVertical(SceneBaseEditorUtil.BoxStyle);
+            if (_fold)
+            {
+                for (var index = 0; index < _sceneBase.UIPathArrToLoadOnStart.Length; index++)
+                {
+                    var str = _sceneBase.UIPathArrToLoadOnStart[index];
+                    var uiDialog = _sceneBase.UIListToLoadOnStart[index];
+                    if (uiDialog == null)
+                    {
+                        EditorGUILayout.LabelField("Empty");
+                    }
+                    else
+                    {
+                        EditorGUILayout.BeginHorizontal();
+                        EditorGUILayout.LabelField($" Element {index} Path", SceneBaseEditorUtil.ButtonStyle, GUILayout.Width(150), GUILayout.Height(20));
+                        EditorGUILayout.LabelField($"[ {str} ]", SceneBaseEditorUtil.TextStyle, GUILayout.Height(20));
+                        GUILayout.FlexibleSpace();
+                        EditorGUILayout.EndHorizontal();
+                    }
+                }
+            }
+            EditorGUILayout.EndVertical();
+        }
+
     }
 }

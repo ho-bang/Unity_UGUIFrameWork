@@ -3,9 +3,10 @@ using UnityEngine.EventSystems;
 
 namespace CJR.UI
 {
-    public class TabSample : CJRUIBase, ITabController<TabSample>
+    public class TabSample : MonoBehaviour, ITabController<TabSample>
     {
         public ITabController<TabSample>.OnPointerClickHandler PointerClickHandler { get; set; }
+
 
         public void RegisterOnPointClick(ITabController<TabSample>.OnPointerClickHandler handler)
         {
@@ -17,6 +18,13 @@ namespace CJR.UI
         {
             Debug.Log("OnPointClick ..");
             PointerClickHandler?.Invoke(this);
+
+            //UIManager.SendMessageToParents(null, gameObject);
+        }
+
+        public void OnSelected(bool select)
+        {
+
         }
     }
 }

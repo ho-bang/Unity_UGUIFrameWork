@@ -48,4 +48,4 @@ MonoBehaviour:
   - {fileID: 7811449153437029651, guid: c22b0ada4e7981a45af2e2e293448b3c, type: 3}
   <UIPathArrToLoadOnStart>k__BackingField:
   - UI/Lobby/TempLobby
-  _sceneType: 0
+  <SceneType>k__BackingField: 1
