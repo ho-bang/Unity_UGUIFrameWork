@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using UnityEngine;
 
 namespace CJR.UI
@@ -134,12 +135,28 @@ namespace CJR.UI
             UIManager.OnDestroy(this);
         }
 
-        public string Key { set; get; }
-        public Action<string, CJRUIBase> OnReturn { set; get; }
+        public string Key { private set; get; }
+        public Action<string, CJRUIBase> OnReturn { private set; get; }
+        
+        public void SetReturnCallBack(string key, Action<string, CJRUIBase> onReturn)
+        {
+            Key = key;
+            OnReturn = onReturn;
+        }
+
         public void Return()
         {
             // object pool에 반환한다.
-            OnReturn?.Invoke(Key, this);
+            if (OnReturn != null)
+            {
+                if (string.IsNullOrEmpty(Key))
+                {
+                    Debug.LogWarning($"Key Is Null {Key}.. Return Fail");
+                    return;
+                }
+
+                OnReturn.Invoke(Key, this);
+            }
         }
     }
 }

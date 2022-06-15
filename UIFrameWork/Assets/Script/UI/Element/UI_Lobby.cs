@@ -17,7 +17,8 @@ public class UI_Lobby : CJRUIBase
 
     public void OnClick()
     {
-        UIManager.SendMessageToOpenList(new UIMessage_EnterGameScene(type: MessageType.Type.ClickTab));
+        //UIManager.SendMessageToOpenList(new UIMessage_EnterGameScene(type: MessageType.Type.ClickTab));
+        UIManager.Close(this);
     }
 
     public override void ReceiveMessage(IUIMessage type)

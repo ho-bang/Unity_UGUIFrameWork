@@ -23,7 +23,6 @@ namespace CJR.GameScene
 
         [field: SerializeField] public List<CJRUIBase> UIListToLoadOnStart { set; get; } = new ();
         [field: SerializeField, HideInInspector] public string[] UIPathArrToLoadOnStart { set; get; }
-
         [field: SerializeField] public GameScene.SceneType SceneType { protected set; get; }
         public GameScene.SceneDataState SceneState { protected set; get; }
 

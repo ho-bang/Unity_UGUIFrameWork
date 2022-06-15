@@ -29,8 +29,8 @@ namespace CJR.Resource
 
                 var instance = Instantiate(gob);
                 var element = instance.GetComponent<CJRUIBase>();
-
-                element.OnReturn = action;
+                element.SetReturnCallBack(key, action);
+                
                 return element;
             });
 

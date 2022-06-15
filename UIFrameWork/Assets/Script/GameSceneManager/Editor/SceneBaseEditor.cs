@@ -10,7 +10,6 @@ namespace CJR.GameScene.Editor
     {
         private SceneBase _sceneBase;
         private bool _fold;
-        private bool _save;
 
         void OnEnable()
         {
@@ -104,6 +103,5 @@ namespace CJR.GameScene.Editor
             }
             EditorGUILayout.EndVertical();
         }
-
     }
 }
