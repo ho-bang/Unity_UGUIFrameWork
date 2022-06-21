@@ -34,7 +34,7 @@ public class Test1
             .Where(_ => isForced)
             .Subscribe(_ =>
             {
-                gameobject.transform.position = new Vector3(gameobject.transform.position.x, gameobject.transform.position.z + 0.5f * Time.deltaTime, gameobject.transform.position.z);
+                gameobject.transform.position = new Vector3(gameobject.transform.position.x + 0.5f * Time.deltaTime, gameobject.transform.position.y, gameobject.transform.position.z);
             });
 
         //gameobject.FixedUpdateAsObservable()
