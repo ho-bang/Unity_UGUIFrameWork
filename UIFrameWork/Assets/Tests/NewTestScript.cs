@@ -1,8 +1,11 @@
+using System;
 using System.IO;
 using System.Net;
 using NUnit.Framework;
+using UniRx.Triggers;
 using UnityEngine;
 using UnityEngine.UI;
+using Object = UnityEngine.Object;
 
 namespace UniRxTest
 {
@@ -74,12 +77,38 @@ namespace UniRxTest
             {
                 var req = (HttpWebRequest)WebRequest.Create("https://google.com");
                 var res = (HttpWebResponse)req.GetResponse();
-                using (var reader = new StreamReader(res.GetResponseStream()))
-                {
-                    return reader.ReadToEnd();
-                }
-            }).ObserveOnMainThread()  // 이건 다른 쓰레드에서 실행할 때 필수적으로 해야 한다는디, 스케줄러를 보면 IObservable의 스케줄러를 AsyncConversions로 바꾸는뎅 이걸 다시 메인 쓰레드로 가져오네
-                .Subscribe(x => Debug.Log($"{x}")); // 오 ㅋ
+                using var reader = new StreamReader(res.GetResponseStream());
+                return reader.ReadToEnd();
+            })
+            .ObserveOnMainThread()  // 이건 다른 쓰레드에서 실행할 때 필수적으로 해야 한다는디, 스케줄러를 보면 IObservable의 스케줄러를 AsyncConversions로 바꾸는뎅 이걸 다시 메인 쓰레드로 가져오네
+            .Subscribe(x => Debug.Log($"{x}")); // 오 ㅋ
+
+            Observable.Timer(TimeSpan.FromSeconds(5)).Subscribe(_ => Debug.Log($"5초 경과"));
+            Observable.Timer(TimeSpan.FromSeconds(7)).Subscribe(_ => Debug.Log($"7초 경과"));
+        }
+
+        [Test]
+        public void Trigger()
+        {
+            var isForced = true;
+            var gameobject = new GameObject();
+            gameobject.name = "ddddddddddddddddddddddddddd";
+            var rb = gameobject.AddComponent<Rigidbody>();
+
+            gameobject.FixedUpdateAsObservable()
+                .Where(_ => isForced)
+                .Subscribe(_ => rb.AddForce(Vector3.up * 20));
+
+            gameobject.FixedUpdateAsObservable()
+                .Where(_ => gameobject.CompareTag("WarpZone"))
+                .Subscribe(_ => isForced = true);
+
+
+            gameobject.FixedUpdateAsObservable()
+                .Where(_ => gameobject.CompareTag("WarpZone"))
+                .Subscribe(_ => isForced = false);
+
+            Observable.Timer(TimeSpan.FromSeconds(5)).Subscribe(_ => Object.DestroyImmediate(gameobject));
         }
     }
 }
