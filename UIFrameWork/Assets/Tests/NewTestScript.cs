@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.IO;
 using System.Net;
 using NUnit.Framework;
@@ -109,6 +110,28 @@ namespace UniRxTest
                 .Subscribe(_ => isForced = false);
 
             Observable.Timer(TimeSpan.FromSeconds(5)).Subscribe(_ => Object.DestroyImmediate(gameobject));
+        }
+
+        [Test]
+        public void FromCoroutine()
+        {
+            IEnumerator GetTimerCoroutine(IObserver<int> Observer, int initialCount)
+            {
+                var count = initialCount;
+                while (count > 0)
+                {
+                    Observer.OnNext(count--);
+
+                    yield return new WaitForSeconds(1);
+                }
+
+                Observer.OnNext(0);
+                Observer.OnCompleted();
+            }
+
+            Observable
+                .FromCoroutine<int>(observe => GetTimerCoroutine(observe, 100))
+                .Subscribe(t => Debug.Log(t));
         }
     }
 }
